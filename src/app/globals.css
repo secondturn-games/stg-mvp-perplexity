@@ -121,3 +121,178 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* =============================================================================
+   SECOND TURN GAMES - COMPONENT UTILITY CLASSES
+   ============================================================================= */
+
+/* Primary Button Styles - Dark Green */
+.btn-primary {
+  @apply bg-darkGreen text-white font-medium px-4 py-2 rounded-lg border border-transparent;
+  @apply hover:bg-brand-green hover:shadow-md;
+  @apply focus:outline-none focus:ring-2 focus:ring-darkGreen/20 focus:ring-offset-2;
+  @apply active:bg-darkGreen/90 active:scale-95;
+  @apply disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-darkGreen;
+  @apply transition-all duration-200 ease-in-out;
+}
+
+/* Primary Button Large */
+.btn-primary-lg {
+  @apply btn-primary px-6 py-3 text-lg;
+}
+
+/* Primary Button Small */
+.btn-primary-sm {
+  @apply btn-primary px-3 py-1.5 text-sm;
+}
+
+/* Secondary Button Styles - Vibrant Orange */
+.btn-secondary {
+  @apply bg-vibrantOrange text-white font-medium px-4 py-2 rounded-lg border border-transparent;
+  @apply hover:bg-brand-orange hover:shadow-md;
+  @apply focus:outline-none focus:ring-2 focus:ring-vibrantOrange/20 focus:ring-offset-2;
+  @apply active:bg-vibrantOrange/90 active:scale-95;
+  @apply disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-vibrantOrange;
+  @apply transition-all duration-200 ease-in-out;
+}
+
+/* Secondary Button Large */
+.btn-secondary-lg {
+  @apply btn-secondary px-6 py-3 text-lg;
+}
+
+/* Secondary Button Small */
+.btn-secondary-sm {
+  @apply btn-secondary px-3 py-1.5 text-sm;
+}
+
+/* Outline Button Styles */
+.btn-outline {
+  @apply bg-surface text-darkGreen font-medium px-4 py-2 rounded-lg;
+  @apply border border-darkGreen;
+  @apply hover:bg-darkGreen hover:text-white hover:shadow-md;
+  @apply focus:outline-none focus:ring-2 focus:ring-darkGreen/20 focus:ring-offset-2;
+  @apply active:bg-darkGreen/90 active:scale-95;
+  @apply disabled:opacity-50 disabled:cursor-not-allowed;
+  @apply transition-all duration-200 ease-in-out;
+}
+
+/* Ghost Button Styles */
+.btn-ghost {
+  @apply bg-transparent text-darkGreen font-medium px-4 py-2 rounded-lg border border-transparent;
+  @apply hover:bg-darkGreen/10 hover:text-darkGreen;
+  @apply focus:outline-none focus:ring-2 focus:ring-darkGreen/20 focus:ring-offset-2;
+  @apply active:bg-darkGreen/20 active:scale-95;
+  @apply disabled:opacity-50 disabled:cursor-not-allowed;
+  @apply transition-all duration-200 ease-in-out;
+}
+
+/* Danger Button Styles */
+.btn-danger {
+  @apply bg-coral text-white font-medium px-4 py-2 rounded-lg border border-transparent;
+  @apply hover:bg-brand-coral hover:shadow-md;
+  @apply focus:outline-none focus:ring-2 focus:ring-coral/20 focus:ring-offset-2;
+  @apply active:bg-coral/90 active:scale-95;
+  @apply disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-coral;
+  @apply transition-all duration-200 ease-in-out;
+}
+
+/* Warning Badge Styles - Warm Yellow */
+.badge-warning {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  @apply bg-warmYellow/20 text-yellow-800 border border-warmYellow/30;
+  @apply hover:bg-warmYellow/30 hover:border-warmYellow/40;
+  @apply transition-colors duration-150 ease-in-out;
+}
+
+/* Success Badge Styles */
+.badge-success {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  @apply bg-teal/20 text-teal-800 border border-teal/30;
+  @apply hover:bg-teal/30 hover:border-teal/40;
+  @apply transition-colors duration-150 ease-in-out;
+}
+
+/* Error Badge Styles */
+.badge-error {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  @apply bg-coral/20 text-red-800 border border-coral/30;
+  @apply hover:bg-coral/30 hover:border-coral/40;
+  @apply transition-colors duration-150 ease-in-out;
+}
+
+/* Info Badge Styles */
+.badge-info {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  @apply bg-lavender/20 text-purple-800 border border-lavender/30;
+  @apply hover:bg-lavender/30 hover:border-lavender/40;
+  @apply transition-colors duration-150 ease-in-out;
+}
+
+/* Neutral Badge Styles */
+.badge-neutral {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  @apply bg-surface-100 text-text-secondary border border-border-primary;
+  @apply hover:bg-surface-50 hover:border-border-primary;
+  @apply transition-colors duration-150 ease-in-out;
+}
+
+/* Large Badge Variants */
+.badge-lg {
+  @apply px-3 py-1 text-sm;
+}
+
+/* Card Component Styles */
+.card {
+  @apply bg-surface border border-border-primary rounded-lg shadow-sm;
+  @apply hover:shadow-md hover:border-border-primary;
+  @apply transition-all duration-200 ease-in-out;
+}
+
+.card-header {
+  @apply bg-surface-50 px-4 py-3 border-b border-border-light;
+}
+
+.card-body {
+  @apply p-4;
+}
+
+.card-footer {
+  @apply bg-surface-50 px-4 py-3 border-t border-border-light;
+}
+
+/* Form Input Styles */
+.input-primary {
+  @apply w-full px-3 py-2 bg-surface border border-border-primary rounded-md;
+  @apply text-text-primary placeholder-text-muted;
+  @apply hover:border-border-primary focus:border-border-accent;
+  @apply focus:outline-none focus:ring-2 focus:ring-vibrantOrange/20;
+  @apply disabled:opacity-50 disabled:cursor-not-allowed;
+  @apply transition-colors duration-200 ease-in-out;
+}
+
+.input-error {
+  @apply input-primary border-coral bg-coral/5 text-red-900;
+  @apply focus:border-coral focus:ring-coral/20;
+}
+
+/* Alert Component Styles */
+.alert {
+  @apply p-4 rounded-lg border-l-4 flex items-start space-x-3;
+}
+
+.alert-success {
+  @apply alert bg-teal/10 border-teal text-teal-800;
+}
+
+.alert-warning {
+  @apply alert bg-warmYellow/10 border-warmYellow text-yellow-800;
+}
+
+.alert-error {
+  @apply alert bg-coral/10 border-coral text-red-800;
+}
+
+.alert-info {
+  @apply alert bg-lavender/10 border-lavender text-purple-800;
+}
