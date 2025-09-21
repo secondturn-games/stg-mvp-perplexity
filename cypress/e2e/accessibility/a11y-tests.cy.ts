@@ -258,11 +258,11 @@ describe('Accessibility Tests', () => {
       cy.visit('/')
       
       // Test tab navigation through interactive elements
-      cy.get('body').tab()
+      cy.get('body').type('{tab}')
       cy.focused().should('be.visible')
-      
+
       // Continue tabbing through main navigation
-      cy.focused().tab()
+      cy.focused().type('{tab}')
       cy.focused().should('be.visible')
     })
 
@@ -276,10 +276,10 @@ describe('Accessibility Tests', () => {
       cy.get('input[name="email"]').focus()
       cy.focused().should('have.attr', 'name', 'email')
       
-      cy.focused().tab()
+      cy.focused().type('{tab}')
       cy.focused().should('have.attr', 'name', 'password')
       
-      cy.focused().tab()
+      cy.focused().type('{tab}')
       cy.focused().should('have.attr', 'type', 'submit')
     })
 
@@ -541,7 +541,7 @@ describe('Accessibility Tests', () => {
       cy.visit('/')
       
       // Tab to first element and check for skip link
-      cy.get('body').tab()
+      cy.get('body').type('{tab}')
       cy.focused().then($el => {
         const text = $el.text().toLowerCase()
         if (text.includes('skip')) {
@@ -588,7 +588,7 @@ describe('Accessibility Tests', () => {
       cy.get('[role="menu"]').should('be.visible')
       
       // Tab through menu items
-      cy.focused().tab()
+      cy.focused().type('{tab}')
       cy.focused().should('be.within', '[role="menu"]')
     })
   })

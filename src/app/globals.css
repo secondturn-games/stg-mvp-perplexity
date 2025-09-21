@@ -23,8 +23,57 @@
 }
 
 :root {
+  /* Default Next.js variables */
   --background: #ffffff;
   --foreground: #171717;
+
+  /* Second Turn Games Brand Colors */
+  --color-dark-green: #29432b;
+  --color-vibrant-orange: #d95323;
+  --color-warm-yellow: #f2c94c;
+  --color-teal: #2db7a3;
+  --color-coral: #ff6b6b;
+  --color-lavender: #a78bfa;
+
+  /* Background Color Variables */
+  --color-bg-primary: #e6ead7;
+  --color-bg-surface: #ffffff;
+  --color-bg-surface-50: #f7f8f4;
+  --color-bg-surface-100: #f0f2e9;
+
+  /* Text Color Variables */
+  --color-text-primary: #1b1b1b;
+  --color-text-secondary: #6b7280;
+  --color-text-muted: #9ca3af;
+
+  /* Border Color Variables */
+  --color-border-primary: #e5e7eb;
+  --color-border-light: #f3f4f6;
+  --color-border-accent: #d95323;
+
+  /* Semantic Color Aliases */
+  --color-brand-primary: var(--color-dark-green);
+  --color-brand-accent: var(--color-vibrant-orange);
+  --color-brand-success: var(--color-teal);
+  --color-brand-warning: var(--color-warm-yellow);
+  --color-brand-error: var(--color-coral);
+  --color-brand-info: var(--color-lavender);
+
+  /* Surface System Variables */
+  --color-surface-default: var(--color-bg-surface);
+  --color-surface-subtle: var(--color-bg-surface-50);
+  --color-surface-muted: var(--color-bg-surface-100);
+  --color-surface-background: var(--color-bg-primary);
+
+  /* Typography System Variables */
+  --color-typography-primary: var(--color-text-primary);
+  --color-typography-secondary: var(--color-text-secondary);
+  --color-typography-muted: var(--color-text-muted);
+
+  /* Border System Variables */
+  --color-border-default: var(--color-border-primary);
+  --color-border-subtle: var(--color-border-light);
+  --color-border-highlight: var(--color-border-accent);
 }
 
 @theme inline {
@@ -36,8 +85,34 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
+    /* Default Next.js dark mode variables */
     --background: #0a0a0a;
     --foreground: #ededed;
+
+    /* Dark mode adaptations for brand colors */
+    /* Brand colors remain the same for consistency */
+    --color-dark-green: #29432b;
+    --color-vibrant-orange: #d95323;
+    --color-warm-yellow: #f2c94c;
+    --color-teal: #2db7a3;
+    --color-coral: #ff6b6b;
+    --color-lavender: #a78bfa;
+
+    /* Dark mode background adjustments */
+    --color-bg-primary: #0f1419;
+    --color-bg-surface: #1a202c;
+    --color-bg-surface-50: #2d3748;
+    --color-bg-surface-100: #4a5568;
+
+    /* Dark mode text adjustments */
+    --color-text-primary: #f7fafc;
+    --color-text-secondary: #e2e8f0;
+    --color-text-muted: #a0aec0;
+
+    /* Dark mode border adjustments */
+    --color-border-primary: #4a5568;
+    --color-border-light: #2d3748;
+    --color-border-accent: #d95323;
   }
 }
 
