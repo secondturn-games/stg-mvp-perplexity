@@ -242,57 +242,318 @@ body {
   @apply px-3 py-1 text-sm;
 }
 
-/* Card Component Styles */
+/* =============================================================================
+   CARD COMPONENT STYLES
+   ============================================================================= */
+
+/* Base Card Styles */
 .card {
   @apply bg-surface border border-border-primary rounded-lg shadow-sm;
   @apply hover:shadow-md hover:border-border-primary;
   @apply transition-all duration-200 ease-in-out;
 }
 
+/* Card Variants */
+.card-elevated {
+  @apply bg-surface border border-border-light rounded-lg shadow-md;
+  @apply hover:shadow-lg hover:border-border-primary;
+  @apply transition-all duration-200 ease-in-out;
+}
+
+.card-interactive {
+  @apply bg-surface border border-border-primary rounded-lg shadow-sm cursor-pointer;
+  @apply hover:shadow-md hover:bg-surface-50 hover:border-border-accent;
+  @apply focus-within:ring-2 focus-within:ring-vibrantOrange/20 focus-within:ring-offset-2;
+  @apply active:scale-[0.98] transition-all duration-200 ease-in-out;
+}
+
+.card-flat {
+  @apply bg-surface border border-border-light rounded-lg;
+  @apply hover:border-border-primary hover:shadow-sm;
+  @apply transition-all duration-200 ease-in-out;
+}
+
+.card-accent {
+  @apply bg-surface border-l-4 border-l-vibrantOrange border-t border-r border-b border-border-primary rounded-r-lg shadow-sm;
+  @apply hover:shadow-md hover:border-border-primary;
+  @apply transition-all duration-200 ease-in-out;
+}
+
+/* Card Layout Components */
 .card-header {
   @apply bg-surface-50 px-4 py-3 border-b border-border-light;
+}
+
+.card-header-clean {
+  @apply px-4 py-3 border-b border-border-light;
 }
 
 .card-body {
   @apply p-4;
 }
 
+.card-body-padded {
+  @apply p-6;
+}
+
+.card-body-compact {
+  @apply p-3;
+}
+
 .card-footer {
   @apply bg-surface-50 px-4 py-3 border-t border-border-light;
 }
 
-/* Form Input Styles */
-.input-primary {
+.card-footer-clean {
+  @apply px-4 py-3 border-t border-border-light;
+}
+
+/* Card Size Variants */
+.card-sm {
+  @apply text-sm;
+}
+
+.card-lg {
+  @apply text-base;
+}
+
+/* =============================================================================
+   MODAL COMPONENT STYLES
+   ============================================================================= */
+
+/* Modal Overlay */
+.modal-overlay {
+  @apply fixed inset-0 z-50 bg-black/50 backdrop-blur-sm;
+  @apply flex items-center justify-center p-4;
+  @apply animate-in fade-in duration-200;
+}
+
+/* Modal Container */
+.modal {
+  @apply bg-surface border border-border-primary rounded-xl shadow-2xl;
+  @apply w-full max-w-md max-h-[90vh] overflow-hidden;
+  @apply animate-in zoom-in-95 duration-200;
+}
+
+.modal-lg {
+  @apply max-w-2xl;
+}
+
+.modal-xl {
+  @apply max-w-4xl;
+}
+
+.modal-fullscreen {
+  @apply max-w-none h-full m-4 rounded-xl;
+}
+
+/* Modal Layout Components */
+.modal-header {
+  @apply bg-surface-50 px-6 py-4 border-b border-border-light;
+  @apply flex items-center justify-between;
+}
+
+.modal-header-clean {
+  @apply px-6 py-4 border-b border-border-light;
+  @apply flex items-center justify-between;
+}
+
+.modal-body {
+  @apply p-6 overflow-y-auto;
+}
+
+.modal-body-scrollable {
+  @apply p-6 overflow-y-auto max-h-96;
+}
+
+.modal-footer {
+  @apply bg-surface-50 px-6 py-4 border-t border-border-light;
+  @apply flex items-center justify-end space-x-3;
+}
+
+.modal-footer-clean {
+  @apply px-6 py-4 border-t border-border-light;
+  @apply flex items-center justify-end space-x-3;
+}
+
+/* Modal Close Button */
+.modal-close {
+  @apply text-text-muted hover:text-text-primary;
+  @apply rounded-md p-1 hover:bg-surface-100;
+  @apply focus:outline-none focus:ring-2 focus:ring-vibrantOrange/20;
+  @apply transition-colors duration-150;
+}
+
+/* =============================================================================
+   INPUT SURFACE STYLES
+   ============================================================================= */
+
+/* Base Input Styles */
+.input-surface {
   @apply w-full px-3 py-2 bg-surface border border-border-primary rounded-md;
   @apply text-text-primary placeholder-text-muted;
-  @apply hover:border-border-primary focus:border-border-accent;
+  @apply hover:border-border-primary hover:bg-surface-50;
+  @apply focus:border-border-accent focus:bg-surface;
   @apply focus:outline-none focus:ring-2 focus:ring-vibrantOrange/20;
-  @apply disabled:opacity-50 disabled:cursor-not-allowed;
+  @apply disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-surface-100;
+  @apply transition-all duration-200 ease-in-out;
+}
+
+/* Input Variants */
+.input-elevated {
+  @apply input-surface shadow-sm hover:shadow-md;
+  @apply focus:shadow-md focus:ring-vibrantOrange/30;
+}
+
+.input-flat {
+  @apply w-full px-3 py-2 bg-surface-50 border-0 rounded-md;
+  @apply text-text-primary placeholder-text-muted;
+  @apply hover:bg-surface-100 focus:bg-surface;
+  @apply focus:outline-none focus:ring-2 focus:ring-vibrantOrange/20;
+  @apply transition-all duration-200 ease-in-out;
+}
+
+.input-underlined {
+  @apply w-full px-0 py-2 bg-transparent border-0 border-b-2 border-border-light rounded-none;
+  @apply text-text-primary placeholder-text-muted;
+  @apply hover:border-border-primary focus:border-border-accent;
+  @apply focus:outline-none focus:ring-0;
   @apply transition-colors duration-200 ease-in-out;
 }
 
+/* Input States */
+.input-success {
+  @apply input-surface border-teal bg-teal/5 text-teal-900;
+  @apply focus:border-teal focus:ring-teal/20;
+}
+
+.input-warning {
+  @apply input-surface border-warmYellow bg-warmYellow/5 text-yellow-900;
+  @apply focus:border-warmYellow focus:ring-warmYellow/20;
+}
+
 .input-error {
-  @apply input-primary border-coral bg-coral/5 text-red-900;
+  @apply input-surface border-coral bg-coral/5 text-red-900;
   @apply focus:border-coral focus:ring-coral/20;
 }
+
+/* Input Sizes */
+.input-sm {
+  @apply px-2.5 py-1.5 text-sm;
+}
+
+.input-lg {
+  @apply px-4 py-3 text-lg;
+}
+
+/* Textarea Variants */
+.textarea-surface {
+  @apply input-surface resize-none min-h-[100px];
+}
+
+.textarea-auto {
+  @apply textarea-surface resize-y;
+}
+
+/* Select Variants */
+.select-surface {
+  @apply input-surface cursor-pointer;
+  @apply bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTUgOEwxMCAxM0wxNSA4IiBzdHJva2U9IiM2QjcyODAiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+Cg==')] bg-no-repeat bg-right bg-[length:20px] pr-10;
+}
+
+/* =============================================================================
+   SURFACE UTILITY CLASSES
+   ============================================================================= */
+
+/* Surface Backgrounds with Hover Effects */
+.surface-default {
+  @apply bg-surface;
+}
+
+.surface-subtle {
+  @apply bg-surface-50 hover:bg-surface-100;
+  @apply transition-colors duration-150 ease-in-out;
+}
+
+.surface-muted {
+  @apply bg-surface-100 hover:bg-surface-50;
+  @apply transition-colors duration-150 ease-in-out;
+}
+
+.surface-interactive {
+  @apply bg-surface hover:bg-surface-50;
+  @apply cursor-pointer transition-colors duration-150 ease-in-out;
+}
+
+/* Surface with Borders */
+.surface-bordered {
+  @apply bg-surface border border-border-primary;
+}
+
+.surface-bordered-light {
+  @apply bg-surface border border-border-light;
+}
+
+.surface-bordered-accent {
+  @apply bg-surface border border-border-accent;
+}
+
+/* Surface Elevations */
+.surface-flat {
+  @apply bg-surface;
+}
+
+.surface-raised {
+  @apply bg-surface shadow-sm;
+}
+
+.surface-elevated {
+  @apply bg-surface shadow-md;
+}
+
+.surface-floating {
+  @apply bg-surface shadow-lg;
+}
+
+/* Surface Shapes */
+.surface-rounded {
+  @apply rounded-lg;
+}
+
+.surface-rounded-xl {
+  @apply rounded-xl;
+}
+
+.surface-pill {
+  @apply rounded-full;
+}
+
+/* =============================================================================
+   ALERT COMPONENT STYLES
+   ============================================================================= */
 
 /* Alert Component Styles */
 .alert {
   @apply p-4 rounded-lg border-l-4 flex items-start space-x-3;
+  @apply transition-all duration-200 ease-in-out;
 }
 
 .alert-success {
   @apply alert bg-teal/10 border-teal text-teal-800;
+  @apply hover:bg-teal/15 hover:shadow-sm;
 }
 
 .alert-warning {
   @apply alert bg-warmYellow/10 border-warmYellow text-yellow-800;
+  @apply hover:bg-warmYellow/15 hover:shadow-sm;
 }
 
 .alert-error {
   @apply alert bg-coral/10 border-coral text-red-800;
+  @apply hover:bg-coral/15 hover:shadow-sm;
 }
 
 .alert-info {
   @apply alert bg-lavender/10 border-lavender text-purple-800;
+  @apply hover:bg-lavender/15 hover:shadow-sm;
 }

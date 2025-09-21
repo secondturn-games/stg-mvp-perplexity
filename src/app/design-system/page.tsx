@@ -1,4 +1,5 @@
 import { ButtonAndBadgeExamples } from '@/components/examples/button-examples'
+import { CardModalInputExamples } from '@/components/examples/card-modal-examples'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -31,7 +32,10 @@ export default function DesignSystemPage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
-        <ButtonAndBadgeExamples />
+        <div className="space-y-16">
+          <ButtonAndBadgeExamples />
+          <CardModalInputExamples />
+        </div>
       </div>
 
       {/* Quick Reference Footer */}

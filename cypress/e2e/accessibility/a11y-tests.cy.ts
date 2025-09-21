@@ -309,7 +309,7 @@ describe('Accessibility Tests', () => {
       cy.log('Testing color contrast')
       
       cy.visit('/')
-      cy.checkA11y(null, {
+      cy.checkA11y(undefined, {
         rules: {
           'color-contrast': { enabled: true }
         }
