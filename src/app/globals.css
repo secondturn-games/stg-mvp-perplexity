@@ -200,7 +200,7 @@ body {
 /* Warning Badge Styles - Warm Yellow */
 .badge-warning {
   @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
-  @apply bg-warmYellow/20 text-yellow-800 border border-warmYellow/30;
+  @apply bg-warmYellow/20 text-amber-800 border border-warmYellow/30;
   @apply hover:bg-warmYellow/30 hover:border-warmYellow/40;
   @apply transition-colors duration-150 ease-in-out;
 }
@@ -208,7 +208,7 @@ body {
 /* Success Badge Styles */
 .badge-success {
   @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
-  @apply bg-teal/20 text-teal-800 border border-teal/30;
+  @apply bg-teal/20 text-emerald-800 border border-teal/30;
   @apply hover:bg-teal/30 hover:border-teal/40;
   @apply transition-colors duration-150 ease-in-out;
 }
@@ -325,14 +325,36 @@ body {
 .modal-overlay {
   @apply fixed inset-0 z-50 bg-black/50 backdrop-blur-sm;
   @apply flex items-center justify-center p-4;
-  @apply animate-in fade-in duration-200;
+  @apply opacity-0 animate-fade-in;
+}
+
+/* Keyframe for fade-in animation (Tailwind v3.4 compatible) */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* Modal Container */
 .modal {
   @apply bg-surface border border-border-primary rounded-xl shadow-2xl;
   @apply w-full max-w-md max-h-[90vh] overflow-hidden;
-  @apply animate-in zoom-in-95 duration-200;
+  @apply scale-95 opacity-0 animate-scale-in;
+}
+
+/* Keyframe for scale-in animation (Tailwind v3.4 compatible) */
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .modal-lg {
@@ -423,12 +445,12 @@ body {
 
 /* Input States */
 .input-success {
-  @apply input-surface border-teal bg-teal/5 text-teal-900;
+  @apply input-surface border-teal bg-teal/5 text-emerald-900;
   @apply focus:border-teal focus:ring-teal/20;
 }
 
 .input-warning {
-  @apply input-surface border-warmYellow bg-warmYellow/5 text-yellow-900;
+  @apply input-surface border-warmYellow bg-warmYellow/5 text-amber-900;
   @apply focus:border-warmYellow focus:ring-warmYellow/20;
 }
 
@@ -650,11 +672,11 @@ body {
 
 /* Text States for Forms and UI */
 .text-success {
-  @apply text-teal-700;
+  @apply text-emerald-700;
 }
 
 .text-warning {
-  @apply text-yellow-700;
+  @apply text-amber-700;
 }
 
 .text-error {
@@ -757,15 +779,15 @@ body {
 
 /* Border Color Variations */
 .border-surface {
-  @apply border-surface;
+  border-color: #FFFFFF;
 }
 
 .border-surface-50 {
-  @apply border-surface50;
+  border-color: #F7F8F4;
 }
 
 .border-surface-100 {
-  @apply border-surface100;
+  border-color: #F0F2E9;
 }
 
 /* Brand Border Colors */
@@ -1321,17 +1343,29 @@ body {
   @apply border-borderPrimary;
 }
 
-/* Animation Utilities */
+/* Animation Utilities - Tailwind v3.4 Compatible */
 .animate-fade-in {
-  @apply animate-in fade-in duration-300;
+  animation: fade-in 300ms ease-in-out forwards;
 }
 
 .animate-slide-up {
-  @apply animate-in slide-in-from-bottom-2 duration-300;
+  animation: slide-up 300ms ease-out forwards;
 }
 
 .animate-scale-in {
-  @apply animate-in zoom-in-95 duration-200;
+  animation: scale-in 200ms ease-out forwards;
+}
+
+/* Additional keyframes for Tailwind v3.4 */
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .animate-bounce-subtle {
@@ -1354,9 +1388,9 @@ body {
 }
 
 .state-warning {
-  @apply bg-warmYellow/10 text-yellow-800 border-warmYellow;
-  @apply hover:bg-warmYellow/20 hover:text-yellow-800 hover:border-warmYellow;
-  @apply focus:bg-warmYellow/20 focus:text-yellow-800 focus:border-warmYellow;
+  @apply bg-warmYellow/10 text-amber-800 border-warmYellow;
+  @apply hover:bg-warmYellow/20 hover:text-amber-800 hover:border-warmYellow;
+  @apply focus:bg-warmYellow/20 focus:text-amber-800 focus:border-warmYellow;
   @apply transition-all duration-200 ease-in-out;
 }
 
@@ -1415,12 +1449,12 @@ body {
 }
 
 .alert-success {
-  @apply alert bg-teal/10 border-teal text-teal-800;
+  @apply alert bg-teal/10 border-teal text-emerald-800;
   @apply hover:bg-teal/15 hover:shadow-sm;
 }
 
 .alert-warning {
-  @apply alert bg-warmYellow/10 border-warmYellow text-yellow-800;
+  @apply alert bg-warmYellow/10 border-warmYellow text-amber-800;
   @apply hover:bg-warmYellow/15 hover:shadow-sm;
 }
 
