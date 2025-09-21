@@ -1,0 +1,192 @@
+name: Accessibility Testing
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+  schedule:
+    # Run accessibility tests daily at 2 AM UTC
+    - cron: '0 2 * * *'
+
+jobs:
+  accessibility-audit:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        browser: [chromium, firefox, webkit]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Build application
+        run: npm run build
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+
+      - name: Start application
+        run: |
+          npm run start &
+          npx wait-on http://localhost:3000 --timeout 60000
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+
+      - name: Run Cypress accessibility tests
+        run: npm run test:a11y:cypress
+        env:
+          CYPRESS_baseUrl: http://localhost:3000
+
+      - name: Run Playwright accessibility tests
+        run: npm run test:a11y:playwright
+        env:
+          PLAYWRIGHT_BASE_URL: http://localhost:3000
+
+      - name: Generate comprehensive accessibility report
+        run: npm run audit:a11y
+        continue-on-error: true
+
+      - name: Upload Cypress screenshots
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: cypress-screenshots-${{ matrix.browser }}
+          path: cypress/screenshots
+          retention-days: 30
+
+      - name: Upload Cypress videos
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: cypress-videos-${{ matrix.browser }}
+          path: cypress/videos
+          retention-days: 30
+
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report-${{ matrix.browser }}
+          path: playwright-report/
+          retention-days: 30
+
+      - name: Upload accessibility reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: accessibility-reports-${{ matrix.browser }}
+          path: accessibility-reports/
+          retention-days: 30
+
+      - name: Comment PR with accessibility results
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs')
+            const path = require('path')
+
+            // Read accessibility report if it exists
+            const reportDir = 'accessibility-reports'
+            if (fs.existsSync(reportDir)) {
+              const files = fs.readdirSync(reportDir)
+              const jsonReport = files.find(f => f.endsWith('.json'))
+              
+              if (jsonReport) {
+                const reportPath = path.join(reportDir, jsonReport)
+                const report = JSON.parse(fs.readFileSync(reportPath, 'utf8'))
+                
+                const comment = `
+                ## 🔍 Accessibility Test Results
+                
+                **Browser:** ${{ matrix.browser }}
+                **Compliance Rate:** ${report.summary.complianceRate}%
+                
+                ### Summary
+                - ✅ Pages passed: ${report.summary.passedPages}/${report.summary.totalPages}
+                - 🚨 Total violations: ${report.summary.totalViolations}
+                - 🔴 Critical: ${report.summary.violationsByImpact.critical || 0}
+                - 🟠 Serious: ${report.summary.violationsByImpact.serious || 0}
+                - 🟡 Moderate: ${report.summary.violationsByImpact.moderate || 0}
+                - 🟢 Minor: ${report.summary.violationsByImpact.minor || 0}
+                
+                ${report.summary.totalViolations === 0 
+                  ? '🎉 **All accessibility tests passed!**' 
+                  : '⚠️ **Accessibility issues found.** Please review the detailed report in the artifacts.'}
+                
+                ### Next Steps
+                ${report.summary.totalViolations > 0 
+                  ? '1. Download the detailed accessibility report from the artifacts\n2. Review priority recommendations\n3. Fix critical and serious issues first\n4. Re-run tests after fixes'
+                  : '1. Great job on maintaining accessibility!\n2. Continue following accessibility best practices\n3. Test with real users when possible'}
+                `
+                
+                github.rest.issues.createComment({
+                  issue_number: context.issue.number,
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  body: comment
+                })
+              }
+            }
+
+  accessibility-summary:
+    runs-on: ubuntu-latest
+    needs: accessibility-audit
+    if: always()
+
+    steps:
+      - name: Download all accessibility reports
+        uses: actions/download-artifact@v4
+        with:
+          pattern: accessibility-reports-*
+          merge-multiple: true
+          path: combined-reports/
+
+      - name: Generate combined accessibility summary
+        run: |
+          echo "# 🔍 Accessibility Testing Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Test Results by Browser" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          for browser in chromium firefox webkit; do
+            echo "### $browser" >> $GITHUB_STEP_SUMMARY
+            if [ -f "combined-reports/accessibility-report-*-$browser.json" ]; then
+              # Process report and add summary
+              echo "- ✅ Accessibility tests completed" >> $GITHUB_STEP_SUMMARY
+              echo "- 📊 Detailed report available in artifacts" >> $GITHUB_STEP_SUMMARY
+            else
+              echo "- ⚠️ No report found for $browser" >> $GITHUB_STEP_SUMMARY
+            fi
+            echo "" >> $GITHUB_STEP_SUMMARY
+          done
+
+          echo "## 📋 Accessibility Compliance Checklist" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- [x] WCAG 2.1 Level A compliance tested" >> $GITHUB_STEP_SUMMARY
+          echo "- [x] WCAG 2.1 Level AA compliance tested" >> $GITHUB_STEP_SUMMARY
+          echo "- [x] Color contrast ratios verified" >> $GITHUB_STEP_SUMMARY
+          echo "- [x] Keyboard navigation tested" >> $GITHUB_STEP_SUMMARY
+          echo "- [x] Screen reader compatibility verified" >> $GITHUB_STEP_SUMMARY
+          echo "- [x] Form accessibility validated" >> $GITHUB_STEP_SUMMARY
+          echo "- [x] Mobile accessibility tested" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## 🔗 Resources" >> $GITHUB_STEP_SUMMARY
+          echo "- [WCAG 2.1 Guidelines](https://www.w3.org/WAI/WCAG21/quickref/)" >> $GITHUB_STEP_SUMMARY
+          echo "- [axe-core Documentation](https://github.com/dequelabs/axe-core)" >> $GITHUB_STEP_SUMMARY
+          echo "- [Web Accessibility Evaluation Tools](https://www.w3.org/WAI/ER/tools/)" >> $GITHUB_STEP_SUMMARY

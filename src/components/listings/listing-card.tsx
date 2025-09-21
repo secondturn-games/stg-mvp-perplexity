@@ -47,30 +47,39 @@ export function ListingCard({ listing, className }: ListingCardProps) {
   const hasMultipleImages = (listing.images?.length || 0) > 1
 
   return (
-    <Link
-      href={`/listings/${listing.id}`}
-      className={cn(
-        'group block bg-white rounded-lg border border-gray-200 hover:border-gray-300 hover:shadow-md transition-all duration-200',
-        className
-      )}
-    >
+    <article>
+      <Link
+        href={`/listings/${listing.id}`}
+        data-testid="listing-card"
+        className={cn(
+          'group block bg-white rounded-lg border border-gray-200 transition-all duration-200',
+          'hover:border-gray-300 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2',
+          className
+        )}
+        aria-label={`View details for ${listing.game_name} - ${formatPrice(listing.price)} in ${CONDITION_LABELS[listing.condition].toLowerCase()} condition`}
+      >
       {/* Image Section */}
       <div className='relative aspect-[4/3] overflow-hidden rounded-t-lg bg-gray-100'>
         {mainImage ? (
           <Image
             src={mainImage}
-            alt={listing.game_name}
+            alt={`${listing.game_name} board game in ${CONDITION_LABELS[listing.condition].toLowerCase()} condition, priced at ${formatPrice(listing.price)}`}
             fill
             className='object-cover group-hover:scale-105 transition-transform duration-200'
             sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
           />
         ) : (
-          <div className='flex items-center justify-center h-full text-gray-400'>
+          <div 
+            className='flex items-center justify-center h-full text-gray-400'
+            role='img'
+            aria-label={`No image available for ${listing.game_name}`}
+          >
             <svg
               className='w-12 h-12'
               fill='none'
               stroke='currentColor'
               viewBox='0 0 24 24'
+              aria-hidden='true'
             >
               <path
                 strokeLinecap='round'
@@ -119,26 +128,40 @@ export function ListingCard({ listing, className }: ListingCardProps) {
         {/* Seller Info */}
         <div className='flex items-center justify-between text-sm text-gray-600 mb-3'>
           <div className='flex items-center space-x-1'>
-            <svg className='w-4 h-4' fill='currentColor' viewBox='0 0 20 20'>
+            <svg 
+              className='w-4 h-4' 
+              fill='currentColor' 
+              viewBox='0 0 20 20'
+              aria-hidden='true'
+            >
               <path
                 fillRule='evenodd'
                 d='M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z'
                 clipRule='evenodd'
               />
             </svg>
-            <span>{listing.seller_name}</span>
+            <span aria-label={`Sold by ${listing.seller_name}`}>
+              {listing.seller_name}
+            </span>
           </div>
           
           {listing.city && (
             <div className='flex items-center space-x-1'>
-              <svg className='w-4 h-4' fill='currentColor' viewBox='0 0 20 20'>
+              <svg 
+                className='w-4 h-4' 
+                fill='currentColor' 
+                viewBox='0 0 20 20'
+                aria-hidden='true'
+              >
                 <path
                   fillRule='evenodd'
                   d='M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z'
                   clipRule='evenodd'
                 />
               </svg>
-              <span>{listing.city}</span>
+              <span aria-label={`Located in ${listing.city}`}>
+                {listing.city}
+              </span>
             </div>
           )}
         </div>
@@ -152,19 +175,28 @@ export function ListingCard({ listing, className }: ListingCardProps) {
 
         {/* Posted Date */}
         <div className='flex items-center justify-between text-xs text-gray-500'>
-          <span>Posted {formatDate(listing.created_at)}</span>
+          <span>
+            <time dateTime={listing.created_at}>
+              Posted {formatDate(listing.created_at)}
+            </time>
+          </span>
           
           {listing.bgg_id && (
-            <div className='flex items-center space-x-1'>
-              <span className='w-4 h-4 bg-orange-500 rounded-sm flex items-center justify-center text-white text-[10px] font-bold'>
+            <div className='flex items-center space-x-1' title='BoardGameGeek verified'>
+              <span 
+                className='w-4 h-4 bg-orange-500 rounded-sm flex items-center justify-center text-white text-[10px] font-bold'
+                aria-hidden='true'
+              >
                 B
               </span>
-              <span>BGG</span>
+              <span className='sr-only'>BoardGameGeek verified game</span>
+              <span aria-hidden='true'>BGG</span>
             </div>
           )}
         </div>
       </div>
-    </Link>
+      </Link>
+    </article>
   )
 }
 

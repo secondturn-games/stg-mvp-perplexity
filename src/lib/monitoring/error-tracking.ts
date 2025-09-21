@@ -1,259 +1,371 @@
+import * as Sentry from '@sentry/nextjs'
+
 /**
- * Error tracking and monitoring for production environment
+ * Enhanced error tracking utilities with Sentry integration
+ * Replaces the basic error tracking with comprehensive Sentry monitoring
  */
 
-export interface ErrorReport {
-  message: string
-  stack?: string
-  url: string
-  userAgent: string
-  userId?: string
-  timestamp: Date
-  severity: 'low' | 'medium' | 'high' | 'critical'
-  context?: Record<string, any>
-}
-
-export interface PerformanceReport {
-  metric: string
-  value: number
-  url: string
-  timestamp: Date
-  userId?: string
-  device: 'mobile' | 'tablet' | 'desktop'
-  connection: string
-}
-
-class ErrorTracker {
-  private isProduction = process.env.NODE_ENV === 'production'
-  private siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
-
-  /**
-   * Report JavaScript errors
-   */
-  reportError(error: Error, context?: Record<string, any>, severity: ErrorReport['severity'] = 'medium') {
-    const report: ErrorReport = {
-      message: error.message,
-      stack: error.stack,
-      url: typeof window !== 'undefined' ? window.location.href : 'server',
-      userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'server',
-      timestamp: new Date(),
-      severity,
-      context
-    }
-
-    this.sendErrorReport(report)
-  }
-
-  /**
-   * Report API errors
-   */
-  reportAPIError(
-    endpoint: string, 
-    status: number, 
-    message: string, 
-    userId?: string,
-    context?: Record<string, any>
-  ) {
-    const severity: ErrorReport['severity'] = status >= 500 ? 'high' : 'medium'
-    
-    const report: ErrorReport = {
-      message: `API Error: ${endpoint} - ${status} - ${message}`,
-      url: endpoint,
-      userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'server',
-      userId,
-      timestamp: new Date(),
-      severity,
-      context: {
-        status,
-        endpoint,
-        ...context
-      }
-    }
-
-    this.sendErrorReport(report)
-  }
-
-  /**
-   * Report performance metrics
-   */
-  reportPerformance(metric: string, value: number, context?: Record<string, any>) {
-    if (!this.isProduction) return
-
-    const report: PerformanceReport = {
-      metric,
-      value,
-      url: typeof window !== 'undefined' ? window.location.href : 'server',
-      timestamp: new Date(),
-      device: this.getDeviceType(),
-      connection: this.getConnectionType(),
-      ...context
-    }
-
-    this.sendPerformanceReport(report)
-  }
-
-  /**
-   * Report security events
-   */
-  reportSecurityEvent(
-    event: string,
-    severity: ErrorReport['severity'] = 'high',
-    context?: Record<string, any>
-  ) {
-    const report: ErrorReport = {
-      message: `Security Event: ${event}`,
-      url: typeof window !== 'undefined' ? window.location.href : 'server',
-      userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'server',
-      timestamp: new Date(),
-      severity,
-      context
-    }
-
-    this.sendErrorReport(report)
-  }
-
-  private sendErrorReport(report: ErrorReport) {
-    if (this.isProduction) {
-      // In production, send to your error tracking service
-      this.sendToErrorService(report)
-    } else {
-      // In development, log to console
-      console.error('Error Report:', report)
-    }
-  }
-
-  private sendPerformanceReport(report: PerformanceReport) {
-    if (this.isProduction) {
-      // In production, send to your analytics service
-      this.sendToAnalyticsService(report)
-    } else {
-      // In development, log to console
-      console.log('Performance Report:', report)
-    }
-  }
-
-  private async sendToErrorService(report: ErrorReport) {
-    try {
-      // Example: Send to Sentry, LogRocket, or custom service
-      if (process.env.SENTRY_DSN) {
-        // Sentry integration would go here
-        console.log('Would send to Sentry:', report)
-      } else {
-        // Fallback: Send to custom endpoint
-        await fetch('/api/errors', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(report)
-        })
-      }
-    } catch (error) {
-      console.error('Failed to send error report:', error)
-    }
-  }
-
-  private async sendToAnalyticsService(report: PerformanceReport) {
-    try {
-      // Example: Send to Vercel Analytics, Google Analytics, or custom service
-      await fetch('/api/analytics', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(report)
-      })
-    } catch (error) {
-      console.error('Failed to send performance report:', error)
-    }
-  }
-
-  private getDeviceType(): 'mobile' | 'tablet' | 'desktop' {
-    if (typeof window === 'undefined') return 'desktop'
-    
-    const width = window.innerWidth
-    if (width < 768) return 'mobile'
-    if (width < 1024) return 'tablet'
-    return 'desktop'
-  }
-
-  private getConnectionType(): string {
-    if (typeof navigator === 'undefined') return 'unknown'
-    
-    const connection = (navigator as any).connection
-    return connection?.effectiveType || 'unknown'
-  }
-}
-
-// Singleton instance
-export const errorTracker = new ErrorTracker()
-
 /**
- * Initialize error tracking for the application
+ * Initialize error tracking
+ * This function is called from the ErrorTrackingProvider
  */
 export function initializeErrorTracking() {
-  if (typeof window === 'undefined') return
-
-  // Global error handler
-  window.addEventListener('error', (event) => {
-    errorTracker.reportError(
-      new Error(event.message),
-      {
-        filename: event.filename,
-        lineno: event.lineno,
-        colno: event.colno
-      },
-      'high'
-    )
-  })
-
-  // Unhandled promise rejection handler
-  window.addEventListener('unhandledrejection', (event) => {
-    errorTracker.reportError(
-      new Error(`Unhandled Promise Rejection: ${event.reason}`),
-      { reason: event.reason },
-      'high'
-    )
-  })
-
-  // Performance monitoring
-  if ('PerformanceObserver' in window) {
-    // Monitor Core Web Vitals
-    const observer = new PerformanceObserver((list) => {
-      for (const entry of list.getEntries()) {
-        if (entry.name === 'first-contentful-paint') {
-          errorTracker.reportPerformance('FCP', entry.startTime)
-        }
-      }
-    })
+  // Sentry is already initialized via config files
+  // This function can be used for additional setup if needed
+  
+  if (typeof window !== 'undefined') {
+    // Client-side initialization
+    console.log('🔍 Sentry error tracking initialized (client)')
     
-    try {
-      observer.observe({ entryTypes: ['paint'] })
-    } catch (error) {
-      console.warn('Performance monitoring not supported:', error)
+    // Set initial context
+    Sentry.setTag('component', 'error-tracking')
+    Sentry.setTag('platform', 'browser')
+    
+    // Add initial breadcrumb
+    Sentry.addBreadcrumb({
+      message: 'Error tracking initialized',
+      category: 'system',
+      level: 'info',
+    })
+  } else {
+    // Server-side initialization
+    console.log('🔍 Sentry error tracking initialized (server)')
+  }
+}
+
+/**
+ * Track page views with enhanced context
+ */
+export function trackPageView(pathname: string) {
+  // Add breadcrumb for page view
+  Sentry.addBreadcrumb({
+    message: `Page view: ${pathname}`,
+    category: 'navigation',
+    level: 'info',
+    data: {
+      pathname,
+      timestamp: new Date().toISOString(),
+      userAgent: typeof window !== 'undefined' ? window.navigator.userAgent : 'server',
+    },
+  })
+
+  // Set current page context
+  Sentry.setTag('currentPage', pathname)
+}
+
+/**
+ * Track user interactions for debugging
+ */
+export function trackUserInteraction(
+  action: string,
+  element: string,
+  context?: Record<string, any>
+) {
+  Sentry.addBreadcrumb({
+    message: `User interaction: ${action} on ${element}`,
+    category: 'user-interaction',
+    level: 'info',
+    data: {
+      action,
+      element,
+      ...context,
+      timestamp: new Date().toISOString(),
+    },
+  })
+}
+
+/**
+ * Track business logic errors (non-technical)
+ */
+export function trackBusinessError(
+  errorType: string,
+  message: string,
+  context?: Record<string, any>
+) {
+  Sentry.withScope((scope) => {
+    scope.setTag('errorType', 'business')
+    scope.setTag('businessErrorType', errorType)
+    scope.setLevel('warning')
+    
+    scope.setContext('businessError', {
+      type: errorType,
+      message,
+      ...context,
+      timestamp: new Date().toISOString(),
+    })
+
+    scope.addBreadcrumb({
+      message: `Business error: ${errorType}`,
+      category: 'business',
+      level: 'warning',
+      data: context,
+    })
+
+    Sentry.captureMessage(`Business Error: ${message}`, 'warning')
+  })
+}
+
+/**
+ * Track API call errors with detailed context
+ */
+export function trackApiError(
+  endpoint: string,
+  method: string,
+  statusCode: number,
+  error: Error,
+  context?: Record<string, any>
+) {
+  Sentry.withScope((scope) => {
+    scope.setTag('errorType', 'api')
+    scope.setTag('endpoint', endpoint)
+    scope.setTag('method', method)
+    scope.setTag('statusCode', statusCode.toString())
+    
+    scope.setContext('apiError', {
+      endpoint,
+      method,
+      statusCode,
+      message: error.message,
+      ...context,
+      timestamp: new Date().toISOString(),
+    })
+
+    scope.addBreadcrumb({
+      message: `API error: ${method} ${endpoint}`,
+      category: 'api',
+      level: 'error',
+      data: {
+        statusCode,
+        ...context,
+      },
+    })
+
+    Sentry.captureException(error)
+  })
+}
+
+/**
+ * Track form submission errors
+ */
+export function trackFormError(
+  formName: string,
+  fieldName: string,
+  error: string,
+  formData?: Record<string, any>
+) {
+  Sentry.withScope((scope) => {
+    scope.setTag('errorType', 'form')
+    scope.setTag('formName', formName)
+    scope.setTag('fieldName', fieldName)
+    scope.setLevel('warning')
+    
+    scope.setContext('formError', {
+      formName,
+      fieldName,
+      error,
+      // Include form field names but not values for privacy
+      formFields: formData ? Object.keys(formData) : [],
+      timestamp: new Date().toISOString(),
+    })
+
+    scope.addBreadcrumb({
+      message: `Form error: ${formName}.${fieldName}`,
+      category: 'form',
+      level: 'warning',
+      data: {
+        formName,
+        fieldName,
+        error,
+      },
+    })
+
+    Sentry.captureMessage(`Form Error: ${error}`, 'warning')
+  })
+}
+
+/**
+ * Track authentication events
+ */
+export function trackAuthEvent(
+  event: 'signUp' | 'signIn' | 'signOut' | 'passwordReset' | 'emailVerification',
+  success: boolean,
+  error?: Error,
+  context?: Record<string, any>
+) {
+  Sentry.addBreadcrumb({
+    message: `Auth event: ${event} ${success ? 'success' : 'failure'}`,
+    category: 'auth',
+    level: success ? 'info' : 'warning',
+    data: {
+      event,
+      success,
+      ...context,
+      timestamp: new Date().toISOString(),
+    },
+  })
+
+  if (!success && error) {
+    Sentry.withScope((scope) => {
+      scope.setTag('errorType', 'authentication')
+      scope.setTag('authEvent', event)
+      scope.setLevel('warning')
+      
+      scope.setContext('authError', {
+        event,
+        message: error.message,
+        ...context,
+        timestamp: new Date().toISOString(),
+      })
+
+      Sentry.captureException(error)
+    })
+  }
+}
+
+/**
+ * Track performance issues
+ */
+export function trackPerformanceIssue(
+  operation: string,
+  duration: number,
+  threshold: number,
+  context?: Record<string, any>
+) {
+  if (duration > threshold) {
+    Sentry.withScope((scope) => {
+      scope.setTag('issueType', 'performance')
+      scope.setTag('operation', operation)
+      scope.setLevel('warning')
+      
+      scope.setContext('performance', {
+        operation,
+        duration,
+        threshold,
+        ...context,
+        timestamp: new Date().toISOString(),
+      })
+
+      scope.addBreadcrumb({
+        message: `Performance issue: ${operation}`,
+        category: 'performance',
+        level: 'warning',
+        data: {
+          duration,
+          threshold,
+          ...context,
+        },
+      })
+
+      Sentry.captureMessage(`Performance Issue: ${operation} took ${duration}ms (threshold: ${threshold}ms)`, 'warning')
+    })
+  }
+}
+
+/**
+ * Track user feedback and feature usage
+ */
+export function trackFeatureUsage(
+  feature: string,
+  action: string,
+  context?: Record<string, any>
+) {
+  Sentry.addBreadcrumb({
+    message: `Feature usage: ${feature}.${action}`,
+    category: 'feature-usage',
+    level: 'info',
+    data: {
+      feature,
+      action,
+      ...context,
+      timestamp: new Date().toISOString(),
+    },
+  })
+}
+
+/**
+ * Manually capture custom errors with context
+ */
+export function captureCustomError(
+  error: Error,
+  context: {
+    component?: string
+    action?: string
+    severity?: 'error' | 'warning' | 'info'
+    additional?: Record<string, any>
+  }
+) {
+  Sentry.withScope((scope) => {
+    scope.setTag('errorType', 'custom')
+    
+    if (context.component) {
+      scope.setTag('component', context.component)
     }
-  }
+    
+    if (context.action) {
+      scope.setTag('action', context.action)
+    }
+    
+    scope.setLevel(context.severity || 'error')
+    
+    if (context.additional) {
+      scope.setContext('customError', {
+        ...context.additional,
+        timestamp: new Date().toISOString(),
+      })
+    }
+
+    scope.addBreadcrumb({
+      message: `Custom error in ${context.component || 'unknown component'}`,
+      category: 'custom-error',
+      level: context.severity || 'error',
+      data: context.additional,
+    })
+
+    return Sentry.captureException(error)
+  })
 }
 
 /**
- * Track user actions for analytics
+ * Set user context for error tracking
  */
-export function trackUserAction(action: string, properties?: Record<string, any>) {
-  if (process.env.NODE_ENV === 'production') {
-    // Send to analytics service
-    errorTracker.reportPerformance(
-      `user_action_${action}`,
-      1,
-      { action, properties }
-    )
-  }
+export function setUserContext(user: {
+  id: string
+  email: string
+  name?: string
+}) {
+  Sentry.setUser({
+    id: user.id,
+    email: user.email,
+    username: user.name,
+  })
+  
+  Sentry.setTag('userType', 'authenticated')
 }
 
 /**
- * Track page views
+ * Clear user context (on sign out)
  */
-export function trackPageView(path: string, userId?: string) {
-  if (process.env.NODE_ENV === 'production') {
-    errorTracker.reportPerformance(
-      'page_view',
-      1,
-      { path, userId }
-    )
+export function clearUserContext() {
+  Sentry.setUser(null)
+  Sentry.setTag('userType', 'anonymous')
+}
+
+/**
+ * Add custom tags for categorization
+ */
+export function addCustomTags(tags: Record<string, string>) {
+  Object.entries(tags).forEach(([key, value]) => {
+    Sentry.setTag(key, value)
+  })
+}
+
+/**
+ * Flush Sentry events (useful before page unload)
+ */
+export async function flushErrorTracking(timeout = 2000) {
+  try {
+    await Sentry.flush(timeout)
+  } catch (error) {
+    console.warn('Failed to flush Sentry events:', error)
   }
 }

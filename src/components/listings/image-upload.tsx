@@ -271,9 +271,12 @@ export function ImageUpload({
   return (
     <div className='space-y-3'>
       <div className='flex items-center justify-between'>
-        <label className='block text-sm font-medium text-gray-700'>
+        <label 
+          htmlFor='image-upload-input'
+          className='block text-sm font-medium text-gray-900'
+        >
           Photos ({imageData.filter(d => d.uploaded).length}/{maxImages})
-          <span className='text-gray-500 ml-1 font-normal'>- Optional but recommended</span>
+          <span className='text-gray-600 ml-1 font-normal'>- Optional but recommended</span>
         </label>
         {isUploading && (
           <div className='flex items-center text-sm text-blue-600'>
@@ -304,7 +307,7 @@ export function ImageUpload({
               )}>
                 <Image
                   src={data.preview}
-                  alt={`Upload ${index + 1}`}
+                  alt={`Game image ${index + 1} - ${data.uploaded ? 'uploaded successfully' : data.uploading ? 'uploading' : 'upload failed'}`}
                   fill
                   className='object-cover'
                   sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
@@ -366,11 +369,15 @@ export function ImageUpload({
                 onClick={() => removeImage(index)}
                 disabled={data.uploading}
                 className={cn(
-                  'absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600 transition-colors',
-                  data.uploading ? 'opacity-50 cursor-not-allowed' : 'opacity-0 group-hover:opacity-100'
+                  'absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs transition-colors',
+                  'hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2',
+                  data.uploading 
+                    ? 'opacity-50 cursor-not-allowed' 
+                    : 'opacity-0 group-hover:opacity-100 focus:opacity-100'
                 )}
+                aria-label={`Remove image ${index + 1}`}
               >
-                ×
+                <span aria-hidden='true'>×</span>
               </button>
 
               {/* Main image indicator */}
@@ -414,13 +421,15 @@ export function ImageUpload({
           )}
         >
           <input
+            id='image-upload-input'
             ref={fileInputRef}
             type='file'
             multiple
             accept={STORAGE_CONFIG.ALLOWED_MIME_TYPES.join(',')}
             onChange={(e) => handleFileSelect(e.target.files)}
             disabled={disabled || isUploading}
-            className='hidden'
+            className='sr-only'
+            aria-describedby='image-upload-help'
           />
           
           <div className='space-y-2'>
@@ -443,15 +452,17 @@ export function ImageUpload({
                 onClick={() => fileInputRef.current?.click()}
                 disabled={disabled || isUploading}
                 className={cn(
-                  'text-blue-600 hover:text-blue-700 font-medium transition-colors',
+                  'text-blue-600 hover:text-blue-700 font-medium transition-colors rounded-md',
+                  'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2',
                   (disabled || isUploading) && 'opacity-50 cursor-not-allowed'
                 )}
+                aria-describedby='image-upload-help'
               >
                 {isUploading ? 'Uploading...' : 'Upload photos'}
               </button>
               <p className='text-sm text-gray-500'>or drag and drop</p>
             </div>
-            <p className='text-xs text-gray-400'>
+            <p id='image-upload-help' className='text-xs text-gray-600'>
               PNG, JPG, WebP up to {formatFileSize(STORAGE_CONFIG.MAX_FILE_SIZE)} each • {maxImages - imageData.length} more allowed
             </p>
           </div>

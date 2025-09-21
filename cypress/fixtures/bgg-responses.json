@@ -1,0 +1,66 @@
+{
+  "catanSearchResponse": {
+    "items": {
+      "item": [
+        {
+          "id": "13",
+          "name": {
+            "value": "Catan"
+          },
+          "yearpublished": {
+            "value": "1995"
+          },
+          "image": "https://cf.geekdo-images.com/W3Bsga_uLP9kO91gZ7H8yw__original/img/xV7oisd3RKqU_4w2xLfxrIjKdks=/0x0/pic2419375.jpg",
+          "thumbnail": "https://cf.geekdo-images.com/W3Bsga_uLP9kO91gZ7H8yw__thumb/img/8a9HeqFydO7Uun_le9bXWPnidcA=/fit-in/200x150/pic2419375.jpg"
+        }
+      ]
+    }
+  },
+  "ticketSearchResponse": {
+    "items": {
+      "item": [
+        {
+          "id": "9209",
+          "name": {
+            "value": "Ticket to Ride"
+          },
+          "yearpublished": {
+            "value": "2004"
+          },
+          "image": "https://cf.geekdo-images.com/ZWJg0dCdrWHxVnc0eFXK8w__original/img/T4KOVWnHGOyVJN2Xk2wOHwYcjTI=/0x0/pic38668.jpg",
+          "thumbnail": "https://cf.geekdo-images.com/ZWJg0dCdrWHxVnc0eFXK8w__thumb/img/9aXdg7X6e7vs-zBd7M4eBnQOWwY=/fit-in/200x150/pic38668.jpg"
+        }
+      ]
+    }
+  },
+  "emptySearchResponse": {
+    "items": ""
+  },
+  "multipleGamesResponse": {
+    "items": {
+      "item": [
+        {
+          "id": "13",
+          "name": { "value": "Catan" },
+          "yearpublished": { "value": "1995" },
+          "image": "https://cf.geekdo-images.com/W3Bsga_uLP9kO91gZ7H8yw__original/img/xV7oisd3RKqU_4w2xLfxrIjKdks=/0x0/pic2419375.jpg",
+          "thumbnail": "https://cf.geekdo-images.com/W3Bsga_uLP9kO91gZ7H8yw__thumb/img/8a9HeqFydO7Uun_le9bXWPnidcA=/fit-in/200x150/pic2419375.jpg"
+        },
+        {
+          "id": "9209",
+          "name": { "value": "Ticket to Ride" },
+          "yearpublished": { "value": "2004" },
+          "image": "https://cf.geekdo-images.com/ZWJg0dCdrWHxVnc0eFXK8w__original/img/T4KOVWnHGOyVJN2Xk2wOHwYcjTI=/0x0/pic38668.jpg",
+          "thumbnail": "https://cf.geekdo-images.com/ZWJg0dCdrWHxVnc0eFXK8w__thumb/img/9aXdg7X6e7vs-zBd7M4eBnQOWwY=/fit-in/200x150/pic38668.jpg"
+        },
+        {
+          "id": "266192",
+          "name": { "value": "Wingspan" },
+          "yearpublished": { "value": "2019" },
+          "image": "https://cf.geekdo-images.com/yLZJCVLlIx4c7eJEWUNJ7w__original/img/Tbuv5VvtZFh-GqhysKr2L1U2-JI=/0x0/pic4458123.jpg",
+          "thumbnail": "https://cf.geekdo-images.com/yLZJCVLlIx4c7eJEWUNJ7w__thumb/img/B-7X93U_l6xOV3LtTnCPSoqF7-Y=/fit-in/200x150/pic4458123.jpg"
+        }
+      ]
+    }
+  }
+}

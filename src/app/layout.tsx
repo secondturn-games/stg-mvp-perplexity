@@ -1,7 +1,10 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
+import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Navigation } from '@/components/navigation'
 import { ErrorTrackingProvider } from '@/components/providers/error-tracking-provider'
+import { GlobalErrorBoundary } from '@/components/error-boundaries/global-error-boundary'
 import './globals.css'
 
 const geistSans = Geist({
@@ -75,12 +78,16 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-gray-50 antialiased`}
       >
-        <ErrorTrackingProvider>
-          <Navigation />
-          <main className='mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8'>
-            {children}
-          </main>
-        </ErrorTrackingProvider>
+        <GlobalErrorBoundary>
+          <ErrorTrackingProvider>
+            <Navigation />
+            <main className='mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8'>
+              {children}
+            </main>
+          </ErrorTrackingProvider>
+        </GlobalErrorBoundary>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   )

@@ -129,14 +129,17 @@ export function BggGameSelector({ onGameSelect, selectedGame, error }: BggGameSe
 
   return (
     <div className='space-y-2'>
-      <label className='block text-sm font-medium text-gray-700'>
+      <label 
+        htmlFor='bgg-search-input'
+        className='block text-sm font-medium text-gray-900 mb-1'
+      >
         Board Game
-        <span className='text-red-500 ml-1'>*</span>
+        <span className='text-red-600 ml-1' aria-label='required'>*</span>
       </label>
       
       {selectedGame ? (
         // Show selected game
-        <div className='bg-blue-50 border border-blue-200 rounded-lg p-4'>
+        <div data-testid="selected-game" className='bg-blue-50 border border-blue-200 rounded-lg p-4'>
           <div className='flex items-start gap-3'>
             {selectedGame.thumbnail && (
               <div className='relative w-16 h-16 rounded overflow-hidden'>
@@ -179,18 +182,32 @@ export function BggGameSelector({ onGameSelect, selectedGame, error }: BggGameSe
         // Show search input
         <div className='relative'>
           <input
+            id='bgg-search-input'
+            data-testid="bgg-search-input"
             type='text'
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder='Search for a board game...'
+            aria-describedby={error ? 'bgg-error' : 'bgg-help'}
+            aria-invalid={error ? 'true' : 'false'}
+            aria-autocomplete='list'
+            aria-expanded={isOpen}
+            role='combobox'
             className={cn(
-              'w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500',
-              error ? 'border-red-300 bg-red-50' : 'border-gray-300'
+              'w-full px-3 py-2 border rounded-md transition-colors',
+              'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500',
+              'hover:border-gray-400',
+              error 
+                ? 'border-red-300 bg-red-50 text-red-900' 
+                : 'border-gray-300 bg-white text-gray-900'
             )}
             onFocus={() => {
               if (searchResults.length > 0) setIsOpen(true)
             }}
           />
+          <div id='bgg-help' className='mt-1 text-xs text-gray-600'>
+            Type at least 2 characters to search BoardGameGeek database
+          </div>
           
           {loading && (
             <div className='absolute right-3 top-2.5'>
@@ -205,7 +222,7 @@ export function BggGameSelector({ onGameSelect, selectedGame, error }: BggGameSe
                 className='fixed inset-0 z-10'
                 onClick={() => setIsOpen(false)}
               />
-              <div className='absolute z-20 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-80 overflow-auto'>
+              <div data-testid="bgg-search-results" className='absolute z-20 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-80 overflow-auto'>
                 <div className='py-1'>
                   {searchResults.map((game) => {
                     // Determine match type for visual indicator
@@ -224,6 +241,7 @@ export function BggGameSelector({ onGameSelect, selectedGame, error }: BggGameSe
                     return (
                       <button
                         key={game.id}
+                        data-testid="bgg-game-option"
                         type='button'
                         onClick={() => handleGameSelect(game)}
                         className='w-full px-3 py-2 text-left hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition-colors'

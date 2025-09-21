@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { cn } from '@/lib/utils'
 import { useAuth, useAuthActions } from '@/lib/supabase'
 
 export function UserMenu() {
@@ -41,20 +42,32 @@ export function UserMenu() {
   return (
     <div className='relative'>
       <button
+        data-testid="user-menu"
         onClick={() => setIsOpen(!isOpen)}
-        className='flex items-center space-x-2 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100'
+        className={cn(
+          'flex items-center space-x-2 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 transition-colors',
+          'hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'
+        )}
+        aria-expanded={isOpen}
+        aria-haspopup='menu'
+        aria-label={`User menu for ${user.email}`}
       >
-        <div className='h-8 w-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-sm font-medium'>
+        <div 
+          className='h-8 w-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-sm font-medium'
+          aria-hidden='true'
+        >
           {user.email?.[0]?.toUpperCase() || 'U'}
         </div>
         <span className='hidden sm:block truncate max-w-32'>{user.email}</span>
         <svg
-          className={`h-4 w-4 transition-transform ${
-            isOpen ? 'rotate-180' : ''
-          }`}
+          className={cn(
+            'h-4 w-4 transition-transform',
+            isOpen && 'rotate-180'
+          )}
           fill='none'
           stroke='currentColor'
           viewBox='0 0 24 24'
+          aria-hidden='true'
         >
           <path
             strokeLinecap='round'
@@ -74,7 +87,12 @@ export function UserMenu() {
           ></div>
 
           {/* Dropdown menu */}
-          <div className='absolute right-0 z-20 mt-2 w-48 sm:w-56 rounded-lg bg-white shadow-lg border border-gray-200'>
+          <div 
+            className='absolute right-0 z-20 mt-2 w-48 sm:w-56 rounded-lg bg-white shadow-lg border border-gray-200'
+            role='menu'
+            aria-orientation='vertical'
+            aria-labelledby='user-menu'
+          >
             <div className='py-1'>
               <div className='px-4 py-2 border-b border-gray-100'>
                 <p className='text-sm font-medium text-gray-900 truncate'>
@@ -84,7 +102,11 @@ export function UserMenu() {
               
               <Link
                 href='/profile'
-                className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50'
+                className={cn(
+                  'block px-4 py-2 text-sm text-gray-700 transition-colors',
+                  'hover:bg-gray-50 focus:outline-none focus:bg-gray-50 focus:ring-2 focus:ring-blue-500'
+                )}
+                role='menuitem'
                 onClick={() => setIsOpen(false)}
               >
                 Profile
@@ -92,7 +114,11 @@ export function UserMenu() {
               
               <Link
                 href='/dashboard'
-                className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50'
+                className={cn(
+                  'block px-4 py-2 text-sm text-gray-700 transition-colors',
+                  'hover:bg-gray-50 focus:outline-none focus:bg-gray-50 focus:ring-2 focus:ring-blue-500'
+                )}
+                role='menuitem'
                 onClick={() => setIsOpen(false)}
               >
                 Dashboard
@@ -100,7 +126,11 @@ export function UserMenu() {
               
               <Link
                 href='/listings/create'
-                className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50'
+                className={cn(
+                  'block px-4 py-2 text-sm text-gray-700 transition-colors',
+                  'hover:bg-gray-50 focus:outline-none focus:bg-gray-50 focus:ring-2 focus:ring-blue-500'
+                )}
+                role='menuitem'
                 onClick={() => setIsOpen(false)}
               >
                 Create Listing
@@ -108,7 +138,11 @@ export function UserMenu() {
               
               <Link
                 href='/settings'
-                className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50'
+                className={cn(
+                  'block px-4 py-2 text-sm text-gray-700 transition-colors',
+                  'hover:bg-gray-50 focus:outline-none focus:bg-gray-50 focus:ring-2 focus:ring-blue-500'
+                )}
+                role='menuitem'
                 onClick={() => setIsOpen(false)}
               >
                 Settings
@@ -116,8 +150,13 @@ export function UserMenu() {
               
               <div className='border-t border-gray-100'>
                 <button
+                  data-testid="sign-out-button"
                   onClick={handleSignOut}
-                  className='block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50'
+                  className={cn(
+                    'block w-full px-4 py-2 text-left text-sm text-red-600 transition-colors',
+                    'hover:bg-red-50 focus:outline-none focus:bg-red-50 focus:ring-2 focus:ring-red-500'
+                  )}
+                  role='menuitem'
                 >
                   Sign out
                 </button>

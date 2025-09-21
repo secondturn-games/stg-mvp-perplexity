@@ -1,4 +1,5 @@
 import type { NextConfig } from 'next'
+import { withSentryConfig } from '@sentry/nextjs'
 
 const nextConfig: NextConfig = {
   images: {
@@ -82,4 +83,31 @@ const nextConfig: NextConfig = {
   },
 }
 
-export default nextConfig
+// Sentry configuration options
+const sentryWebpackPluginOptions = {
+  // Additional config options for the Sentry Webpack plugin
+  org: process.env.SENTRY_ORG,
+  project: process.env.SENTRY_PROJECT,
+  
+  // Only upload source maps in production
+  silent: process.env.NODE_ENV !== 'production',
+  
+  // Upload source maps during build
+  widenClientFileUpload: true,
+  
+  // Automatically tree-shake Sentry logger statements for production
+  hideSourceMaps: true,
+  
+  // Disable source map upload in development
+  disableServerWebpackPlugin: process.env.NODE_ENV !== 'production',
+  disableClientWebpackPlugin: process.env.NODE_ENV !== 'production',
+  
+  // Additional Sentry configuration
+  authToken: process.env.SENTRY_AUTH_TOKEN,
+  
+  // Automatically inject Sentry configuration
+  automaticVercelMonitors: true,
+}
+
+// Export configuration with Sentry wrapper
+export default withSentryConfig(nextConfig, sentryWebpackPluginOptions)

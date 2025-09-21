@@ -2,15 +2,28 @@
 
 import { redirect } from 'next/navigation'
 import { headers } from 'next/headers'
+import * as Sentry from '@sentry/nextjs'
 import { createClient } from '@/lib/supabase/server'
 import { getAuthErrorMessage, validateAuthForm, type AuthActionResult } from './types'
 import { authRateLimiter, RATE_LIMITS, getClientIP } from '@/lib/security/rate-limiting'
+import { captureAuthError } from '@/lib/monitoring/sentry-utils'
 
 export async function signUpAction(formData: FormData): Promise<AuthActionResult> {
   const email = formData.get('email') as string
   const password = formData.get('password') as string
   const name = formData.get('name') as string
   const confirmPassword = formData.get('confirmPassword') as string
+
+  // Add breadcrumb for auth action
+  Sentry.addBreadcrumb({
+    message: 'Sign up action started',
+    category: 'auth',
+    level: 'info',
+    data: {
+      email: email ? 'provided' : 'missing',
+      name: name ? 'provided' : 'missing',
+    },
+  })
 
   // Validate form data
   const validationErrors = validateAuthForm(
@@ -19,6 +32,16 @@ export async function signUpAction(formData: FormData): Promise<AuthActionResult
   )
 
   if (Object.keys(validationErrors).length > 0) {
+    // Track validation error
+    Sentry.addBreadcrumb({
+      message: 'Sign up validation failed',
+      category: 'auth',
+      level: 'warning',
+      data: {
+        validationErrors: Object.keys(validationErrors),
+      },
+    })
+
     return {
       success: false,
       error: Object.values(validationErrors)[0],

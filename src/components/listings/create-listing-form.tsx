@@ -158,13 +158,23 @@ export function CreateListingForm() {
       {/* Price and Condition Row */}
       <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
         <div>
-          <label className='block text-sm font-medium text-gray-700 mb-1'>
+          <label 
+            htmlFor='price-input'
+            className='block text-sm font-medium text-gray-900 mb-1'
+          >
             Price (EUR)
-            <span className='text-red-500 ml-1'>*</span>
+            <span className='text-red-600 ml-1' aria-label='required'>*</span>
           </label>
           <div className='relative'>
-            <span className='absolute left-3 top-2 text-gray-500'>€</span>
+            <span 
+              className='absolute left-3 top-2 text-gray-500 pointer-events-none' 
+              aria-hidden='true'
+            >
+              €
+            </span>
             <input
+              id='price-input'
+              name='price'
               type='number'
               step='0.01'
               min='0'
@@ -172,14 +182,31 @@ export function CreateListingForm() {
               value={formData.price}
               onChange={(e) => updateFormData('price', e.target.value)}
               placeholder='0.00'
+              required
+              aria-describedby={errors.price ? 'price-error' : 'price-help'}
+              aria-invalid={errors.price ? 'true' : 'false'}
               className={cn(
-                'w-full pl-8 pr-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500',
-                errors.price ? 'border-red-300 bg-red-50' : 'border-gray-300'
+                'w-full pl-8 pr-3 py-2 border rounded-md transition-colors',
+                'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500',
+                'hover:border-gray-400',
+                errors.price 
+                  ? 'border-red-300 bg-red-50 text-red-900' 
+                  : 'border-gray-300 bg-white text-gray-900'
               )}
             />
           </div>
+          <div id='price-help' className='mt-1 text-xs text-gray-600'>
+            Enter the selling price in euros (€0.01 - €10,000)
+          </div>
           {errors.price && (
-            <p className='mt-1 text-sm text-red-600'>{errors.price}</p>
+            <p 
+              id='price-error' 
+              className='mt-1 text-sm text-red-600' 
+              role='alert'
+              aria-live='polite'
+            >
+              {errors.price}
+            </p>
           )}
         </div>
 
@@ -194,30 +221,53 @@ export function CreateListingForm() {
 
       {/* Description */}
       <div>
-        <label className='block text-sm font-medium text-gray-700 mb-1'>
+        <label 
+          htmlFor='description-input'
+          className='block text-sm font-medium text-gray-900 mb-1'
+        >
           Description
-          <span className='text-gray-500 ml-1 font-normal'>- Optional</span>
+          <span className='text-gray-600 ml-1 font-normal'>- Optional</span>
         </label>
         <textarea
+          id='description-input'
+          name='description'
           value={formData.description}
           onChange={(e) => updateFormData('description', e.target.value)}
           placeholder='Add any additional details about the game condition, included components, etc.'
           maxLength={500}
           rows={4}
+          aria-describedby='description-help description-counter'
+          aria-invalid={errors.description ? 'true' : 'false'}
           className={cn(
-            'w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none',
-            errors.description ? 'border-red-300 bg-red-50' : 'border-gray-300'
+            'w-full px-3 py-2 border rounded-md resize-none transition-colors',
+            'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500',
+            'hover:border-gray-400',
+            errors.description 
+              ? 'border-red-300 bg-red-50 text-red-900' 
+              : 'border-gray-300 bg-white text-gray-900'
           )}
         />
         <div className='flex justify-between mt-1'>
           {errors.description ? (
-            <p className='text-sm text-red-600'>{errors.description}</p>
+            <p 
+              id='description-error' 
+              className='text-sm text-red-600' 
+              role='alert'
+              aria-live='polite'
+            >
+              {errors.description}
+            </p>
           ) : (
-            <p className='text-sm text-gray-500'>
+            <p id='description-help' className='text-sm text-gray-600'>
               Provide additional details to help buyers
             </p>
           )}
-          <p className='text-sm text-gray-500'>
+          <p 
+            id='description-counter' 
+            className='text-sm text-gray-600'
+            aria-live='polite'
+            aria-label={`${formData.description.length} of 500 characters used`}
+          >
             {formData.description.length}/500
           </p>
         </div>
@@ -247,18 +297,34 @@ export function CreateListingForm() {
         <button
           type='button'
           onClick={() => router.back()}
-          className='px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors'
+          className={cn(
+            'px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg transition-colors',
+            'hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2',
+            loading && 'opacity-50 cursor-not-allowed'
+          )}
           disabled={loading}
+          aria-label='Cancel listing creation and go back'
         >
           Cancel
         </button>
         <button
           type='submit'
           disabled={loading}
-          className='inline-flex items-center px-6 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors'
+          className={cn(
+            'inline-flex items-center px-6 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-lg transition-colors',
+            'hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2',
+            'disabled:opacity-50 disabled:cursor-not-allowed',
+            loading && 'cursor-wait'
+          )}
+          aria-describedby={loading ? 'submit-status' : undefined}
         >
           {loading && <ButtonSpinner />}
-          {loading ? 'Creating Listing...' : 'Create Listing'}
+          <span>{loading ? 'Creating Listing...' : 'Create Listing'}</span>
+          {loading && (
+            <span id='submit-status' className='sr-only'>
+              Please wait while your listing is being created
+            </span>
+          )}
         </button>
       </div>
     </form>

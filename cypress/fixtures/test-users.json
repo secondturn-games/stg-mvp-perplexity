@@ -1,0 +1,40 @@
+{
+  "validUser": {
+    "name": "Cypress Test User",
+    "email": "cypress.test@example.com",
+    "password": "CypressTest123!"
+  },
+  "validUser2": {
+    "name": "Cypress Test User 2", 
+    "email": "cypress.test2@example.com",
+    "password": "CypressTest456!"
+  },
+  "invalidUser": {
+    "name": "",
+    "email": "invalid-email",
+    "password": "123"
+  },
+  "testListings": {
+    "catan": {
+      "gameName": "Catan",
+      "price": "25.00",
+      "condition": "good",
+      "description": "Great strategy game in good condition. All pieces included.",
+      "city": "Riga"
+    },
+    "ticket": {
+      "gameName": "Ticket to Ride",
+      "price": "35.50",
+      "condition": "excellent", 
+      "description": "Family-friendly railway game, barely used.",
+      "city": "Daugavpils"
+    },
+    "wingspan": {
+      "gameName": "Wingspan",
+      "price": "42.99",
+      "condition": "new",
+      "description": "Brand new bird-themed engine building game.",
+      "city": "Liepaja"
+    }
+  }
+}
