@@ -3,6 +3,7 @@ import { CardModalInputExamples } from '@/components/examples/card-modal-example
 import { TypographyExamples } from '@/components/examples/typography-examples'
 import { BorderExamples } from '@/components/examples/border-examples'
 import { InteractiveExamples } from '@/components/examples/interactive-examples'
+import { FontExamples } from '@/components/examples/font-examples'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -36,6 +37,7 @@ export default function DesignSystemPage() {
 
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="space-y-16">
+          <FontExamples />
           <ButtonAndBadgeExamples />
           <CardModalInputExamples />
           <TypographyExamples />

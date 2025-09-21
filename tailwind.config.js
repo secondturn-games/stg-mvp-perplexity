@@ -115,11 +115,47 @@ module.exports = {
         },
       },
       
-      // Enhanced typography for v3.4
+      // Enhanced typography for v3.4 with Google Fonts
       fontFamily: {
-        sans: ['var(--font-geist-sans)', 'ui-sans-serif', 'system-ui'],
-        mono: ['var(--font-geist-mono)', 'ui-monospace', 'SFMono-Regular'],
-        serif: ['ui-serif', 'Georgia'],
+        // Primary body font - Lato with Latin Extended support for Latvian
+        sans: [
+          'var(--font-lato)', 
+          'var(--font-geist-sans)', 
+          'ui-sans-serif', 
+          'system-ui', 
+          'arial', 
+          'sans-serif'
+        ],
+        
+        // Display font - Righteous for headings and special text
+        display: [
+          'var(--font-righteous)', 
+          'cursive', 
+          'fantasy',
+          'ui-serif',
+          'Georgia'
+        ],
+        
+        // Monospace font - Keep Geist Mono for code
+        mono: [
+          'var(--font-geist-mono)', 
+          'ui-monospace', 
+          'SFMono-Regular',
+          'Consolas',
+          'monospace'
+        ],
+        
+        // Serif font - Enhanced fallbacks
+        serif: [
+          'ui-serif', 
+          'Georgia', 
+          'Times New Roman',
+          'serif'
+        ],
+        
+        // Legacy font variables (keep for backward compatibility)
+        'geist-sans': ['var(--font-geist-sans)', 'sans-serif'],
+        'geist-mono': ['var(--font-geist-mono)', 'monospace'],
       },
       
       // Enhanced spacing scale

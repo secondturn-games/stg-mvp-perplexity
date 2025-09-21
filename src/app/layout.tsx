@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Geist, Geist_Mono, Lato, Righteous } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Navigation } from '@/components/navigation'
@@ -7,6 +7,7 @@ import { ErrorTrackingProvider } from '@/components/providers/error-tracking-pro
 import { GlobalErrorBoundary } from '@/components/error-boundaries/global-error-boundary'
 import './globals.css'
 
+// Geist fonts (keep existing for compatibility)
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
@@ -15,6 +16,24 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: '--font-geist-mono',
   subsets: ['latin'],
+})
+
+// Lato font - Primary body font with Latin Extended support for Latvian characters
+const lato = Lato({
+  weight: ['400', '700'], // Regular and Bold weights
+  subsets: ['latin', 'latin-ext'], // Latin Extended for Latvian characters (ā, č, ē, ģ, ī, ķ, ļ, ņ, š, ū, ž)
+  display: 'swap', // Performance optimization - swap font when loaded
+  variable: '--font-lato',
+  fallback: ['system-ui', 'arial', 'sans-serif'], // Fallback fonts for better loading experience
+})
+
+// Righteous font - Display font for headings and special text
+const righteous = Righteous({
+  weight: '400', // Righteous only comes in regular weight
+  subsets: ['latin', 'latin-ext'], // Latin Extended for Latvian characters
+  display: 'swap', // Performance optimization
+  variable: '--font-righteous',
+  fallback: ['cursive', 'fantasy'], // Appropriate fallbacks for display font
 })
 
 export const metadata: Metadata = {
@@ -76,7 +95,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-gray-50 antialiased`}
+        className={`${lato.variable} ${righteous.variable} ${geistSans.variable} ${geistMono.variable} min-h-screen bg-surfaceBackground font-sans antialiased`}
       >
         <GlobalErrorBoundary>
           <ErrorTrackingProvider>
