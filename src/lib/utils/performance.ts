@@ -36,7 +36,7 @@ class PerformanceMonitor {
       // Observe LCP
       const lcpObserver = new PerformanceObserver((list) => {
         const entries = list.getEntries()
-        const lastEntry = entries[entries.length - 1] as any
+        const lastEntry = entries[entries.length - 1] as PerformanceEntry & { startTime: number }
         this.metrics.LCP = lastEntry.startTime
       })
       lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] })
@@ -44,7 +44,8 @@ class PerformanceMonitor {
       // Observe FID
       const fidObserver = new PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
-          this.metrics.FID = (entry as any).processingStart - entry.startTime
+          const fidEntry = entry as PerformanceEntry & { processingStart: number }
+          this.metrics.FID = fidEntry.processingStart - entry.startTime
         }
       })
       fidObserver.observe({ entryTypes: ['first-input'] })
@@ -53,8 +54,9 @@ class PerformanceMonitor {
       const clsObserver = new PerformanceObserver((list) => {
         let clsValue = 0
         for (const entry of list.getEntries()) {
-          if (!(entry as any).hadRecentInput) {
-            clsValue += (entry as any).value
+          const clsEntry = entry as PerformanceEntry & { hadRecentInput: boolean; value: number }
+          if (!clsEntry.hadRecentInput) {
+            clsValue += clsEntry.value
           }
         }
         this.metrics.CLS = clsValue
@@ -101,7 +103,7 @@ export const performanceMonitor = new PerformanceMonitor()
 /**
  * Debounce function for expensive operations
  */
-export function debounce<T extends (...args: any[]) => any>(
+export function debounce<T extends (...args: unknown[]) => unknown>(
   func: T,
   wait: number
 ): (...args: Parameters<T>) => void {
@@ -115,7 +117,7 @@ export function debounce<T extends (...args: any[]) => any>(
 /**
  * Throttle function for frequent events
  */
-export function throttle<T extends (...args: any[]) => any>(
+export function throttle<T extends (...args: unknown[]) => unknown>(
   func: T,
   limit: number
 ): (...args: Parameters<T>) => void {
@@ -199,7 +201,14 @@ export function getConnectionInfo() {
     return { effectiveType: '4g', downlink: 10 }
   }
 
-  const connection = (navigator as any).connection
+  const connection = (navigator as Navigator & { 
+    connection?: {
+      effectiveType?: string
+      downlink?: number
+      rtt?: number
+      saveData?: boolean
+    }
+  }).connection
   return {
     effectiveType: connection.effectiveType || '4g',
     downlink: connection.downlink || 10,
