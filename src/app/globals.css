@@ -1117,6 +1117,294 @@ body {
 }
 
 /* =============================================================================
+   RESPONSIVE & INTERACTIVE COLOR UTILITIES
+   ============================================================================= */
+
+/* Responsive Background Colors */
+.bg-responsive-surface {
+  @apply bg-surface;
+  @apply sm:bg-surface-50 md:bg-surface lg:bg-surface-50;
+}
+
+.bg-responsive-accent {
+  @apply bg-vibrantOrange/10;
+  @apply sm:bg-vibrantOrange/20 md:bg-vibrantOrange/30 lg:bg-vibrantOrange/40;
+}
+
+/* Responsive Text Colors */
+.text-responsive-primary {
+  @apply text-textPrimary;
+  @apply sm:text-textSecondary md:text-textPrimary lg:text-darkGreen;
+}
+
+.text-responsive-accent {
+  @apply text-vibrantOrange;
+  @apply sm:text-darkGreen md:text-vibrantOrange lg:text-coral;
+}
+
+/* Advanced Hover States */
+.hover-lift {
+  @apply transition-all duration-300 ease-out;
+  @apply hover:transform hover:-translate-y-1 hover:shadow-lg;
+  @apply hover:bg-surface-50 hover:border-borderAccent;
+}
+
+.hover-glow {
+  @apply transition-all duration-300 ease-out;
+  @apply hover:shadow-lg hover:shadow-vibrantOrange/20;
+  @apply hover:border-vibrantOrange hover:bg-vibrantOrange/5;
+}
+
+.hover-scale {
+  @apply transition-all duration-200 ease-out;
+  @apply hover:scale-105 hover:shadow-md;
+  @apply hover:bg-surface-50 hover:border-borderAccent;
+}
+
+.hover-fade {
+  @apply transition-all duration-300 ease-in-out;
+  @apply hover:opacity-80 hover:bg-surface-100;
+}
+
+/* Interactive Background Utilities */
+.bg-interactive-surface {
+  @apply bg-surface hover:bg-surface-50 active:bg-surface-100;
+  @apply focus:bg-surface-50 focus:outline-none focus:ring-2 focus:ring-borderAccent/20;
+  @apply transition-all duration-200 ease-in-out;
+}
+
+.bg-interactive-accent {
+  @apply bg-vibrantOrange hover:bg-darkGreen active:bg-coral;
+  @apply focus:bg-darkGreen focus:outline-none focus:ring-2 focus:ring-vibrantOrange/30;
+  @apply transition-all duration-200 ease-in-out;
+}
+
+.bg-interactive-primary {
+  @apply bg-darkGreen hover:bg-vibrantOrange active:bg-teal;
+  @apply focus:bg-vibrantOrange focus:outline-none focus:ring-2 focus:ring-darkGreen/20;
+  @apply transition-all duration-200 ease-in-out;
+}
+
+.bg-interactive-success {
+  @apply bg-teal hover:bg-teal/80 active:bg-teal/90;
+  @apply focus:bg-teal/80 focus:outline-none focus:ring-2 focus:ring-teal/30;
+  @apply transition-all duration-200 ease-in-out;
+}
+
+.bg-interactive-warning {
+  @apply bg-warmYellow hover:bg-warmYellow/80 active:bg-warmYellow/90;
+  @apply focus:bg-warmYellow/80 focus:outline-none focus:ring-2 focus:ring-warmYellow/40;
+  @apply transition-all duration-200 ease-in-out;
+}
+
+.bg-interactive-error {
+  @apply bg-coral hover:bg-coral/80 active:bg-coral/90;
+  @apply focus:bg-coral/80 focus:outline-none focus:ring-2 focus:ring-coral/30;
+  @apply transition-all duration-200 ease-in-out;
+}
+
+/* Interactive Text Utilities */
+.text-interactive-primary {
+  @apply text-textPrimary hover:text-vibrantOrange active:text-darkGreen;
+  @apply focus:text-vibrantOrange focus:outline-none;
+  @apply transition-colors duration-200 ease-in-out cursor-pointer;
+}
+
+.text-interactive-accent {
+  @apply text-vibrantOrange hover:text-darkGreen active:text-coral;
+  @apply focus:text-darkGreen focus:outline-none;
+  @apply transition-colors duration-200 ease-in-out cursor-pointer;
+}
+
+.text-interactive-brand {
+  @apply text-darkGreen hover:text-vibrantOrange active:text-teal;
+  @apply focus:text-vibrantOrange focus:outline-none;
+  @apply transition-colors duration-200 ease-in-out cursor-pointer;
+}
+
+.text-interactive-muted {
+  @apply text-textMuted hover:text-textSecondary active:text-textPrimary;
+  @apply focus:text-textSecondary focus:outline-none;
+  @apply transition-colors duration-200 ease-in-out cursor-pointer;
+}
+
+/* Interactive Border Utilities */
+.border-interactive-primary {
+  @apply border-borderPrimary hover:border-borderAccent active:border-darkGreen;
+  @apply focus:border-borderAccent focus:outline-none focus:ring-2 focus:ring-borderAccent/20;
+  @apply transition-all duration-200 ease-in-out;
+}
+
+.border-interactive-accent {
+  @apply border-borderAccent hover:border-darkGreen active:border-coral;
+  @apply focus:border-darkGreen focus:outline-none focus:ring-2 focus:ring-darkGreen/20;
+  @apply transition-all duration-200 ease-in-out;
+}
+
+.border-interactive-light {
+  @apply border-borderLight hover:border-borderPrimary active:border-borderAccent;
+  @apply focus:border-borderPrimary focus:outline-none focus:ring-2 focus:ring-borderAccent/20;
+  @apply transition-all duration-200 ease-in-out;
+}
+
+/* Gradient Utilities with Hover States */
+.gradient-primary {
+  @apply bg-gradient-to-r from-darkGreen to-vibrantOrange;
+  @apply hover:from-vibrantOrange hover:to-darkGreen;
+  @apply transition-all duration-300 ease-in-out;
+}
+
+.gradient-accent {
+  @apply bg-gradient-to-r from-vibrantOrange to-coral;
+  @apply hover:from-coral hover:to-vibrantOrange;
+  @apply transition-all duration-300 ease-in-out;
+}
+
+.gradient-success {
+  @apply bg-gradient-to-r from-teal to-darkGreen;
+  @apply hover:from-darkGreen hover:to-teal;
+  @apply transition-all duration-300 ease-in-out;
+}
+
+.gradient-surface {
+  @apply bg-gradient-to-b from-surface to-surface-50;
+  @apply hover:from-surface-50 hover:to-surface-100;
+  @apply transition-all duration-300 ease-in-out;
+}
+
+/* Complex Interactive States */
+.interactive-card {
+  @apply bg-surface border border-borderLight rounded-lg shadow-sm;
+  @apply hover:bg-surface-50 hover:border-borderAccent hover:shadow-md hover:-translate-y-0.5;
+  @apply focus-within:bg-surface-50 focus-within:border-borderAccent focus-within:shadow-md;
+  @apply active:bg-surface-100 active:shadow-sm active:translate-y-0;
+  @apply transition-all duration-200 ease-out cursor-pointer;
+}
+
+.interactive-button {
+  @apply bg-vibrantOrange text-white border border-vibrantOrange rounded-lg px-4 py-2;
+  @apply hover:bg-darkGreen hover:border-darkGreen hover:shadow-md hover:-translate-y-0.5;
+  @apply focus:bg-darkGreen focus:border-darkGreen focus:outline-none focus:ring-2 focus:ring-vibrantOrange/30;
+  @apply active:bg-coral active:border-coral active:translate-y-0 active:shadow-sm;
+  @apply disabled:bg-textMuted disabled:border-textMuted disabled:cursor-not-allowed disabled:transform-none;
+  @apply transition-all duration-200 ease-out;
+}
+
+.interactive-link {
+  @apply text-vibrantOrange underline decoration-vibrantOrange/50 underline-offset-2;
+  @apply hover:text-darkGreen hover:decoration-darkGreen hover:decoration-2;
+  @apply focus:text-darkGreen focus:decoration-darkGreen focus:outline-none focus:ring-2 focus:ring-vibrantOrange/20 focus:rounded-sm;
+  @apply active:text-coral active:decoration-coral;
+  @apply transition-all duration-200 ease-in-out;
+}
+
+.interactive-input {
+  @apply bg-surface border border-borderPrimary rounded-md px-3 py-2;
+  @apply text-textPrimary placeholder-textMuted;
+  @apply hover:border-borderAccent hover:bg-surface-50;
+  @apply focus:border-borderAccent focus:bg-surface focus:outline-none focus:ring-2 focus:ring-borderAccent/20;
+  @apply invalid:border-coral invalid:bg-coral/5 invalid:text-coral;
+  @apply disabled:bg-surface-100 disabled:border-borderLight disabled:text-textMuted disabled:cursor-not-allowed;
+  @apply transition-all duration-200 ease-in-out;
+}
+
+/* Dark Mode Utilities (for future use) */
+.dark-mode-surface {
+  @apply bg-surface;
+}
+
+.dark-mode-text {
+  @apply text-textPrimary;
+}
+
+.dark-mode-border {
+  @apply border-borderPrimary;
+}
+
+/* Animation Utilities */
+.animate-fade-in {
+  @apply animate-in fade-in duration-300;
+}
+
+.animate-slide-up {
+  @apply animate-in slide-in-from-bottom-2 duration-300;
+}
+
+.animate-scale-in {
+  @apply animate-in zoom-in-95 duration-200;
+}
+
+.animate-bounce-subtle {
+  @apply animate-pulse;
+}
+
+/* State-based Color Combinations */
+.state-default {
+  @apply bg-surface text-textPrimary border-borderPrimary;
+  @apply hover:bg-surface-50 hover:text-textPrimary hover:border-borderAccent;
+  @apply focus:bg-surface-50 focus:text-textPrimary focus:border-borderAccent;
+  @apply transition-all duration-200 ease-in-out;
+}
+
+.state-success {
+  @apply bg-teal/10 text-teal border-teal;
+  @apply hover:bg-teal/20 hover:text-teal hover:border-teal;
+  @apply focus:bg-teal/20 focus:text-teal focus:border-teal;
+  @apply transition-all duration-200 ease-in-out;
+}
+
+.state-warning {
+  @apply bg-warmYellow/10 text-yellow-800 border-warmYellow;
+  @apply hover:bg-warmYellow/20 hover:text-yellow-800 hover:border-warmYellow;
+  @apply focus:bg-warmYellow/20 focus:text-yellow-800 focus:border-warmYellow;
+  @apply transition-all duration-200 ease-in-out;
+}
+
+.state-error {
+  @apply bg-coral/10 text-coral border-coral;
+  @apply hover:bg-coral/20 hover:text-coral hover:border-coral;
+  @apply focus:bg-coral/20 focus:text-coral focus:border-coral;
+  @apply transition-all duration-200 ease-in-out;
+}
+
+.state-info {
+  @apply bg-lavender/10 text-purple-800 border-lavender;
+  @apply hover:bg-lavender/20 hover:text-purple-800 hover:border-lavender;
+  @apply focus:bg-lavender/20 focus:text-purple-800 focus:border-lavender;
+  @apply transition-all duration-200 ease-in-out;
+}
+
+/* Accessibility Enhancements */
+.focus-visible-enhanced {
+  @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-borderAccent/30 focus-visible:ring-offset-2;
+  @apply transition-all duration-200 ease-in-out;
+}
+
+.reduced-motion {
+  @apply motion-reduce:transition-none motion-reduce:transform-none;
+}
+
+/* Touch-friendly Interactive States */
+.touch-interactive {
+  @apply touch-manipulation select-none;
+  @apply active:scale-95 active:bg-surface-100;
+  @apply transition-transform duration-100 ease-out;
+}
+
+/* High Contrast Mode Support */
+.high-contrast-border {
+  @apply border-2 border-textPrimary;
+}
+
+.high-contrast-text {
+  @apply text-textPrimary contrast-more:text-black contrast-more:font-bold;
+}
+
+.high-contrast-bg {
+  @apply bg-surface contrast-more:bg-white;
+}
+
+/* =============================================================================
    ALERT COMPONENT STYLES
    ============================================================================= */
 
