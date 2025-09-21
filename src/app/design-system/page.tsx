@@ -1,5 +1,6 @@
 import { ButtonAndBadgeExamples } from '@/components/examples/button-examples'
 import { CardModalInputExamples } from '@/components/examples/card-modal-examples'
+import { TypographyExamples } from '@/components/examples/typography-examples'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -35,6 +36,7 @@ export default function DesignSystemPage() {
         <div className="space-y-16">
           <ButtonAndBadgeExamples />
           <CardModalInputExamples />
+          <TypographyExamples />
         </div>
       </div>
 

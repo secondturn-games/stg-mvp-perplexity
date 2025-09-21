@@ -529,6 +529,216 @@ body {
 }
 
 /* =============================================================================
+   TEXT COLOR UTILITIES
+   ============================================================================= */
+
+/* Primary Text Colors */
+.text-primary {
+  @apply text-textPrimary;
+}
+
+.text-secondary {
+  @apply text-textSecondary;
+}
+
+.text-muted {
+  @apply text-textMuted;
+}
+
+/* Text Color Variations with Hover Effects */
+.text-primary-hover {
+  @apply text-textPrimary hover:text-darkGreen;
+  @apply transition-colors duration-200 ease-in-out;
+}
+
+.text-secondary-hover {
+  @apply text-textSecondary hover:text-textPrimary;
+  @apply transition-colors duration-200 ease-in-out;
+}
+
+.text-muted-hover {
+  @apply text-textMuted hover:text-textSecondary;
+  @apply transition-colors duration-200 ease-in-out;
+}
+
+/* Interactive Text Colors */
+.text-interactive {
+  @apply text-textPrimary hover:text-vibrantOrange;
+  @apply cursor-pointer transition-colors duration-200 ease-in-out;
+}
+
+.text-interactive-secondary {
+  @apply text-textSecondary hover:text-vibrantOrange;
+  @apply cursor-pointer transition-colors duration-200 ease-in-out;
+}
+
+.text-link {
+  @apply text-vibrantOrange hover:text-darkGreen;
+  @apply cursor-pointer transition-colors duration-200 ease-in-out;
+  @apply underline decoration-vibrantOrange/50 hover:decoration-darkGreen;
+  @apply underline-offset-2;
+}
+
+.text-link-subtle {
+  @apply text-textPrimary hover:text-vibrantOrange;
+  @apply cursor-pointer transition-colors duration-200 ease-in-out;
+  @apply hover:underline hover:decoration-vibrantOrange;
+  @apply underline-offset-2;
+}
+
+/* Brand Accent Text Colors */
+.text-brand-primary {
+  @apply text-darkGreen;
+}
+
+.text-brand-accent {
+  @apply text-vibrantOrange;
+}
+
+.text-brand-success {
+  @apply text-teal;
+}
+
+.text-brand-warning {
+  @apply text-warmYellow;
+}
+
+.text-brand-error {
+  @apply text-coral;
+}
+
+.text-brand-info {
+  @apply text-lavender;
+}
+
+/* Text Size with Color Combinations */
+.text-heading-primary {
+  @apply text-textPrimary text-2xl font-bold;
+}
+
+.text-heading-secondary {
+  @apply text-textPrimary text-xl font-semibold;
+}
+
+.text-heading-tertiary {
+  @apply text-textPrimary text-lg font-medium;
+}
+
+.text-subheading {
+  @apply text-textSecondary text-base font-medium;
+}
+
+.text-body-primary {
+  @apply text-textPrimary text-base;
+}
+
+.text-body-secondary {
+  @apply text-textSecondary text-base;
+}
+
+.text-body-small {
+  @apply text-textSecondary text-sm;
+}
+
+.text-caption {
+  @apply text-textMuted text-sm;
+}
+
+.text-caption-small {
+  @apply text-textMuted text-xs;
+}
+
+/* Text States for Forms and UI */
+.text-success {
+  @apply text-teal-700;
+}
+
+.text-warning {
+  @apply text-yellow-700;
+}
+
+.text-error {
+  @apply text-red-700;
+}
+
+.text-info {
+  @apply text-blue-700;
+}
+
+/* Text Contrast Utilities */
+.text-on-surface {
+  @apply text-textPrimary;
+}
+
+.text-on-surface-variant {
+  @apply text-textSecondary;
+}
+
+.text-on-surface-muted {
+  @apply text-textMuted;
+}
+
+.text-on-dark {
+  @apply text-white;
+}
+
+.text-on-dark-muted {
+  @apply text-gray-300;
+}
+
+.text-on-accent {
+  @apply text-white;
+}
+
+/* Semantic Text Classes */
+.text-price {
+  @apply text-textPrimary text-lg font-bold;
+}
+
+.text-price-large {
+  @apply text-textPrimary text-2xl font-bold;
+}
+
+.text-seller {
+  @apply text-textSecondary text-sm;
+}
+
+.text-location {
+  @apply text-textMuted text-sm;
+}
+
+.text-timestamp {
+  @apply text-textMuted text-xs;
+}
+
+.text-condition {
+  @apply text-textSecondary text-sm font-medium;
+}
+
+.text-game-title {
+  @apply text-textPrimary text-lg font-semibold;
+}
+
+.text-game-subtitle {
+  @apply text-textSecondary text-sm;
+}
+
+/* Focus and Active States */
+.text-focus {
+  @apply focus:text-vibrantOrange;
+  @apply focus:outline-none focus:ring-2 focus:ring-vibrantOrange/20;
+}
+
+.text-active {
+  @apply text-vibrantOrange;
+}
+
+/* Disabled Text States */
+.text-disabled {
+  @apply text-textMuted opacity-50;
+}
+
+/* =============================================================================
    ALERT COMPONENT STYLES
    ============================================================================= */
 

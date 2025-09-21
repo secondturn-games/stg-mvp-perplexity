@@ -323,7 +323,7 @@ describe('Accessibility Tests', () => {
       // Simulate high contrast mode
       cy.visit('/', {
         onBeforeLoad: (win) => {
-          win.document.documentElement.style.filter = 'contrast(200%)'
+          (win as any).document.documentElement.style.filter = 'contrast(200%)'
         }
       })
       
