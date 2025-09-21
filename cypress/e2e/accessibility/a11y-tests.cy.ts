@@ -40,7 +40,11 @@ describe('Accessibility Tests', () => {
         
         // Check that heading levels don't skip (no h1 followed by h3)
         for (let i = 1; i < headings.length; i++) {
-          expect(headings[i]).to.be.at.most(headings[i-1] + 1)
+          const currentHeading = headings[i]
+          const previousHeading = headings[i-1]
+          if (currentHeading !== undefined && previousHeading !== undefined) {
+            expect(currentHeading).to.be.at.most(previousHeading + 1)
+          }
         }
       })
     })
@@ -61,8 +65,11 @@ describe('Accessibility Tests', () => {
       cy.log('Testing sign-in form accessibility')
       
       cy.visit('/auth/sign-in')
-      cy.checkA11y(null, {
-        tags: ['wcag2a', 'wcag2aa'],
+      cy.checkA11y(undefined, {
+        runOnly: {
+          type: 'tag',
+          values: ['wcag2a', 'wcag2aa']
+        },
         rules: {
           'label': { enabled: true },
           'form-field-multiple-labels': { enabled: true },
@@ -114,8 +121,11 @@ describe('Accessibility Tests', () => {
       cy.log('Testing marketplace accessibility')
       
       cy.visit('/listings')
-      cy.checkA11y(null, {
-        tags: ['wcag2a', 'wcag2aa']
+      cy.checkA11y(undefined, {
+        runOnly: {
+          type: 'tag',
+          values: ['wcag2a', 'wcag2aa']
+        }
       })
     })
 
@@ -142,7 +152,7 @@ describe('Accessibility Tests', () => {
       cy.log('Testing listing card accessibility')
       
       cy.visit('/listings')
-      cy.waitForPageLoad()
+      cy.wait(1000) // Wait for page to load
       
       // Check that listing cards are properly structured
       cy.get('[data-testid="listing-card"]').first().within(() => {
@@ -184,8 +194,11 @@ describe('Accessibility Tests', () => {
       cy.log('Testing listing creation form accessibility')
       
       cy.visit('/listings/create')
-      cy.checkA11y(null, {
-        tags: ['wcag2a', 'wcag2aa'],
+      cy.checkA11y(undefined, {
+        runOnly: {
+          type: 'tag',
+          values: ['wcag2a', 'wcag2aa']
+        },
         rules: {
           'label': { enabled: true },
           'aria-required-attr': { enabled: true },
