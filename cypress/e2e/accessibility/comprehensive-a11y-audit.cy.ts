@@ -67,10 +67,10 @@ describe('Comprehensive Accessibility Audit', () => {
         cy.log(`🔍 Testing ${name}: ${description}`)
         
         cy.visit(url)
-        cy.waitForPageLoad()
-        
+        cy.wait(1000) // Wait for page to load
+
         // Run comprehensive accessibility check
-        cy.checkA11y(null, {
+        cy.checkA11y(undefined, {
           runOnly: {
             type: 'tag',
             values: ['wcag2a', 'wcag2aa', 'wcag21aa']

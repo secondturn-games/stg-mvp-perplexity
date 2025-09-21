@@ -1,6 +1,7 @@
 import { ButtonAndBadgeExamples } from '@/components/examples/button-examples'
 import { CardModalInputExamples } from '@/components/examples/card-modal-examples'
 import { TypographyExamples } from '@/components/examples/typography-examples'
+import { BorderExamples } from '@/components/examples/border-examples'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -37,6 +38,7 @@ export default function DesignSystemPage() {
           <ButtonAndBadgeExamples />
           <CardModalInputExamples />
           <TypographyExamples />
+          <BorderExamples />
         </div>
       </div>
 

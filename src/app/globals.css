@@ -739,6 +739,384 @@ body {
 }
 
 /* =============================================================================
+   BORDER UTILITIES
+   ============================================================================= */
+
+/* Primary Border Colors */
+.border-primary {
+  @apply border-borderPrimary;
+}
+
+.border-light {
+  @apply border-borderLight;
+}
+
+.border-accent {
+  @apply border-borderAccent;
+}
+
+/* Border Color Variations */
+.border-surface {
+  @apply border-surface;
+}
+
+.border-surface-50 {
+  @apply border-surface50;
+}
+
+.border-surface-100 {
+  @apply border-surface100;
+}
+
+/* Brand Border Colors */
+.border-brand-primary {
+  @apply border-darkGreen;
+}
+
+.border-brand-accent {
+  @apply border-vibrantOrange;
+}
+
+.border-brand-success {
+  @apply border-teal;
+}
+
+.border-brand-warning {
+  @apply border-warmYellow;
+}
+
+.border-brand-error {
+  @apply border-coral;
+}
+
+.border-brand-info {
+  @apply border-lavender;
+}
+
+/* Border Widths with Colors */
+.border-primary-2 {
+  @apply border-2 border-borderPrimary;
+}
+
+.border-light-2 {
+  @apply border-2 border-borderLight;
+}
+
+.border-accent-2 {
+  @apply border-2 border-borderAccent;
+}
+
+.border-accent-4 {
+  @apply border-4 border-borderAccent;
+}
+
+/* Directional Borders */
+.border-t-primary {
+  @apply border-t border-t-borderPrimary;
+}
+
+.border-b-primary {
+  @apply border-b border-b-borderPrimary;
+}
+
+.border-l-primary {
+  @apply border-l border-l-borderPrimary;
+}
+
+.border-r-primary {
+  @apply border-r border-r-borderPrimary;
+}
+
+.border-t-light {
+  @apply border-t border-t-borderLight;
+}
+
+.border-b-light {
+  @apply border-b border-b-borderLight;
+}
+
+.border-l-light {
+  @apply border-l border-l-borderLight;
+}
+
+.border-r-light {
+  @apply border-r border-r-borderLight;
+}
+
+.border-t-accent {
+  @apply border-t border-t-borderAccent;
+}
+
+.border-b-accent {
+  @apply border-b border-b-borderAccent;
+}
+
+.border-l-accent {
+  @apply border-l border-l-borderAccent;
+}
+
+.border-r-accent {
+  @apply border-r border-r-borderAccent;
+}
+
+/* Thick Directional Borders */
+.border-t-accent-4 {
+  @apply border-t-4 border-t-borderAccent;
+}
+
+.border-b-accent-4 {
+  @apply border-b-4 border-b-borderAccent;
+}
+
+.border-l-accent-4 {
+  @apply border-l-4 border-l-borderAccent;
+}
+
+.border-r-accent-4 {
+  @apply border-r-4 border-r-borderAccent;
+}
+
+/* Hover Border Effects */
+.border-hover-primary {
+  @apply border-borderLight hover:border-borderPrimary;
+  @apply transition-colors duration-200 ease-in-out;
+}
+
+.border-hover-accent {
+  @apply border-borderPrimary hover:border-borderAccent;
+  @apply transition-colors duration-200 ease-in-out;
+}
+
+.border-hover-light {
+  @apply border-borderLight hover:border-borderPrimary;
+  @apply transition-colors duration-200 ease-in-out;
+}
+
+/* Interactive Borders */
+.border-interactive {
+  @apply border-borderPrimary hover:border-borderAccent;
+  @apply transition-colors duration-200 ease-in-out;
+}
+
+.border-interactive-light {
+  @apply border-borderLight hover:border-borderPrimary;
+  @apply transition-colors duration-200 ease-in-out;
+}
+
+/* =============================================================================
+   FOCUS RING UTILITIES
+   ============================================================================= */
+
+/* Standard Focus Rings */
+.focus-ring {
+  @apply focus:outline-none focus:ring-2 focus:ring-borderAccent/20 focus:ring-offset-2;
+  @apply transition-all duration-200 ease-in-out;
+}
+
+.focus-ring-accent {
+  @apply focus:outline-none focus:ring-2 focus:ring-borderAccent/30 focus:ring-offset-2;
+  @apply transition-all duration-200 ease-in-out;
+}
+
+.focus-ring-primary {
+  @apply focus:outline-none focus:ring-2 focus:ring-darkGreen/20 focus:ring-offset-2;
+  @apply transition-all duration-200 ease-in-out;
+}
+
+.focus-ring-success {
+  @apply focus:outline-none focus:ring-2 focus:ring-teal/20 focus:ring-offset-2;
+  @apply transition-all duration-200 ease-in-out;
+}
+
+.focus-ring-warning {
+  @apply focus:outline-none focus:ring-2 focus:ring-warmYellow/30 focus:ring-offset-2;
+  @apply transition-all duration-200 ease-in-out;
+}
+
+.focus-ring-error {
+  @apply focus:outline-none focus:ring-2 focus:ring-coral/20 focus:ring-offset-2;
+  @apply transition-all duration-200 ease-in-out;
+}
+
+/* Focus Ring Variants */
+.focus-ring-inset {
+  @apply focus:outline-none focus:ring-2 focus:ring-inset focus:ring-borderAccent/30;
+  @apply transition-all duration-200 ease-in-out;
+}
+
+.focus-ring-thick {
+  @apply focus:outline-none focus:ring-4 focus:ring-borderAccent/20 focus:ring-offset-2;
+  @apply transition-all duration-200 ease-in-out;
+}
+
+.focus-ring-tight {
+  @apply focus:outline-none focus:ring-2 focus:ring-borderAccent/30 focus:ring-offset-1;
+  @apply transition-all duration-200 ease-in-out;
+}
+
+.focus-ring-none {
+  @apply focus:outline-none focus:ring-0;
+}
+
+/* Focus with Border Changes */
+.focus-border-accent {
+  @apply focus:border-borderAccent focus:outline-none focus:ring-2 focus:ring-borderAccent/20;
+  @apply transition-all duration-200 ease-in-out;
+}
+
+.focus-border-primary {
+  @apply focus:border-darkGreen focus:outline-none focus:ring-2 focus:ring-darkGreen/20;
+  @apply transition-all duration-200 ease-in-out;
+}
+
+/* =============================================================================
+   FORM BORDER UTILITIES
+   ============================================================================= */
+
+/* Form Input Borders */
+.form-border {
+  @apply border border-borderPrimary rounded-md;
+  @apply hover:border-borderPrimary focus:border-borderAccent;
+  @apply focus:outline-none focus:ring-2 focus:ring-borderAccent/20;
+  @apply transition-all duration-200 ease-in-out;
+}
+
+.form-border-light {
+  @apply border border-borderLight rounded-md;
+  @apply hover:border-borderPrimary focus:border-borderAccent;
+  @apply focus:outline-none focus:ring-2 focus:ring-borderAccent/20;
+  @apply transition-all duration-200 ease-in-out;
+}
+
+.form-border-success {
+  @apply border border-teal rounded-md;
+  @apply focus:border-teal focus:outline-none focus:ring-2 focus:ring-teal/20;
+  @apply transition-all duration-200 ease-in-out;
+}
+
+.form-border-warning {
+  @apply border border-warmYellow rounded-md;
+  @apply focus:border-warmYellow focus:outline-none focus:ring-2 focus:ring-warmYellow/30;
+  @apply transition-all duration-200 ease-in-out;
+}
+
+.form-border-error {
+  @apply border border-coral rounded-md;
+  @apply focus:border-coral focus:outline-none focus:ring-2 focus:ring-coral/20;
+  @apply transition-all duration-200 ease-in-out;
+}
+
+/* Form Group Borders */
+.form-group-border {
+  @apply border border-borderLight rounded-lg p-4;
+  @apply hover:border-borderPrimary transition-colors duration-200;
+}
+
+.form-section-border {
+  @apply border-t border-borderLight pt-6 mt-6;
+}
+
+/* Card-like Form Borders */
+.form-card-border {
+  @apply border border-borderPrimary rounded-lg shadow-sm;
+  @apply hover:border-borderAccent hover:shadow-md;
+  @apply transition-all duration-200 ease-in-out;
+}
+
+/* =============================================================================
+   COMPONENT BORDER UTILITIES
+   ============================================================================= */
+
+/* Button Borders */
+.btn-border-primary {
+  @apply border border-borderPrimary;
+  @apply hover:border-borderAccent focus:border-borderAccent;
+  @apply transition-colors duration-200 ease-in-out;
+}
+
+.btn-border-accent {
+  @apply border border-borderAccent;
+  @apply hover:border-darkGreen focus:border-darkGreen;
+  @apply transition-colors duration-200 ease-in-out;
+}
+
+/* Card Borders */
+.card-border {
+  @apply border border-borderPrimary rounded-lg;
+  @apply hover:border-borderAccent transition-colors duration-200;
+}
+
+.card-border-light {
+  @apply border border-borderLight rounded-lg;
+  @apply hover:border-borderPrimary transition-colors duration-200;
+}
+
+.card-border-accent {
+  @apply border-l-4 border-l-borderAccent border-t border-r border-b border-borderPrimary rounded-r-lg;
+}
+
+/* Divider Borders */
+.divider-primary {
+  @apply border-t border-borderPrimary;
+}
+
+.divider-light {
+  @apply border-t border-borderLight;
+}
+
+.divider-accent {
+  @apply border-t-2 border-borderAccent;
+}
+
+/* Navigation Borders */
+.nav-border-bottom {
+  @apply border-b border-borderLight;
+}
+
+.nav-border-active {
+  @apply border-b-2 border-borderAccent;
+}
+
+/* Table Borders */
+.table-border {
+  @apply border-collapse border border-borderLight;
+}
+
+.table-border-row {
+  @apply border-b border-borderLight;
+}
+
+.table-border-cell {
+  @apply border-r border-borderLight;
+}
+
+/* Image Borders */
+.img-border {
+  @apply border border-borderLight rounded-lg;
+}
+
+.img-border-accent {
+  @apply border-2 border-borderAccent rounded-lg;
+}
+
+/* Status Borders */
+.status-border-success {
+  @apply border-l-4 border-l-teal;
+}
+
+.status-border-warning {
+  @apply border-l-4 border-l-warmYellow;
+}
+
+.status-border-error {
+  @apply border-l-4 border-l-coral;
+}
+
+.status-border-info {
+  @apply border-l-4 border-l-lavender;
+}
+
+/* =============================================================================
    ALERT COMPONENT STYLES
    ============================================================================= */
 
