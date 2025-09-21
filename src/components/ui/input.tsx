@@ -14,6 +14,7 @@ export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElem
   helperText?: string
   errorText?: string
   required?: boolean
+  name?: string
 }
 
 /**
@@ -29,9 +30,11 @@ export function Input({
   required = false,
   className,
   id,
+  name,
   ...props
 }: InputProps) {
-  const inputId = id || `input-${Math.random().toString(36).substr(2, 9)}`
+  // Use name or provided id for stable hydration, fallback to a stable pattern
+  const inputId = id || (name ? `input-${name}` : `input-${label?.toLowerCase().replace(/\s+/g, '-') || 'field'}`)
   const helperId = helperText ? `${inputId}-helper` : undefined
   const errorId = errorText ? `${inputId}-error` : undefined
   
@@ -89,6 +92,7 @@ export interface TextareaProps extends Omit<React.TextareaHTMLAttributes<HTMLTex
   helperText?: string
   errorText?: string
   required?: boolean
+  name?: string
 }
 
 export function Textarea({
@@ -101,9 +105,11 @@ export function Textarea({
   required = false,
   className,
   id,
+  name,
   ...props
 }: TextareaProps) {
-  const textareaId = id || `textarea-${Math.random().toString(36).substr(2, 9)}`
+  // Use name or provided id for stable hydration, fallback to a stable pattern
+  const textareaId = id || (name ? `textarea-${name}` : `textarea-${label?.toLowerCase().replace(/\s+/g, '-') || 'field'}`)
   const helperId = helperText ? `${textareaId}-helper` : undefined
   const errorId = errorText ? `${textareaId}-error` : undefined
   
@@ -161,6 +167,7 @@ export interface SelectProps extends Omit<React.SelectHTMLAttributes<HTMLSelectE
   helperText?: string
   errorText?: string
   required?: boolean
+  name?: string
   children: React.ReactNode
 }
 
@@ -174,10 +181,12 @@ export function Select({
   required = false,
   className,
   id,
+  name,
   children,
   ...props
 }: SelectProps) {
-  const selectId = id || `select-${Math.random().toString(36).substr(2, 9)}`
+  // Use name or provided id for stable hydration, fallback to a stable pattern
+  const selectId = id || (name ? `select-${name}` : `select-${label?.toLowerCase().replace(/\s+/g, '-') || 'field'}`)
   const helperId = helperText ? `${selectId}-helper` : undefined
   const errorId = errorText ? `${selectId}-error` : undefined
   

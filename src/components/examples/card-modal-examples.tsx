@@ -241,6 +241,7 @@ export function CardModalInputExamples() {
             <CardBody>
               <FormGroup>
                 <Input
+                  name="contact-name"
                   label="Your Name"
                   placeholder="Enter your full name"
                   required
@@ -248,6 +249,7 @@ export function CardModalInputExamples() {
                 />
                 
                 <Input
+                  name="contact-email"
                   label="Email Address"
                   type="email"
                   placeholder="your.email@example.com"
@@ -256,6 +258,7 @@ export function CardModalInputExamples() {
                 />
                 
                 <Select
+                  name="inquiry-type"
                   label="Inquiry Type"
                   required
                   helperText="Select the type of your inquiry"
@@ -268,6 +271,7 @@ export function CardModalInputExamples() {
                 </Select>
                 
                 <Textarea
+                  name="contact-message"
                   label="Message"
                   placeholder="Hi! I'm interested in your board game..."
                   required
@@ -292,6 +296,7 @@ export function CardModalInputExamples() {
             <CardBody>
               <FormGroup>
                 <Input
+                  name="valid-email"
                   label="Valid Input"
                   value="john.doe@example.com"
                   state="success"
@@ -300,6 +305,7 @@ export function CardModalInputExamples() {
                 />
                 
                 <Input
+                  name="warning-email"
                   label="Warning Input"
                   value="john@"
                   state="warning"
@@ -308,6 +314,7 @@ export function CardModalInputExamples() {
                 />
                 
                 <Input
+                  name="error-email"
                   label="Error Input"
                   value="invalid-email"
                   state="error"
@@ -316,12 +323,14 @@ export function CardModalInputExamples() {
                 />
                 
                 <Input
+                  name="flat-input"
                   label="Flat Input Style"
                   variant="flat"
                   placeholder="Alternative input style"
                 />
                 
                 <Input
+                  name="underlined-input"
                   label="Underlined Input"
                   variant="underlined"
                   placeholder="Minimal underlined style"
@@ -551,6 +560,7 @@ export function CardModalInputExamples() {
       >
         <FormGroup>
           <Input
+            name="game-name"
             label="Game Name"
             placeholder="Enter board game name"
             required
@@ -558,13 +568,14 @@ export function CardModalInputExamples() {
           
           <div className="grid grid-cols-2 gap-4">
             <Input
+              name="game-price"
               label="Price (EUR)"
               type="number"
               placeholder="0.00"
               required
             />
             
-            <Select label="Condition" required>
+            <Select name="game-condition" label="Condition" required>
               <option value="">Select condition...</option>
               <option value="new">New</option>
               <option value="like-new">Like New</option>
@@ -575,6 +586,7 @@ export function CardModalInputExamples() {
           </div>
           
           <Textarea
+            name="game-description"
             label="Description"
             placeholder="Describe the game condition and any included components..."
             rows={3}

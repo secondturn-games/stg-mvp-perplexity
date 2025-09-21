@@ -145,10 +145,10 @@ describe('Comprehensive Accessibility Audit', () => {
         cy.log(`🔍 Testing ${name}: ${description}`)
         
         cy.visit(url)
-        cy.waitForPageLoad()
-        
+        cy.wait(1000) // Wait for page to load
+
         // Run accessibility check with custom configuration
-        cy.checkA11y(null, Cypress.env('A11Y_OPTIONS'), (violations) => {
+        cy.checkA11y(undefined, Cypress.env('A11Y_OPTIONS'), (violations) => {
           if (violations.length > 0) {
             cy.task('log', `❌ Accessibility violations found on ${name}:`)
             
